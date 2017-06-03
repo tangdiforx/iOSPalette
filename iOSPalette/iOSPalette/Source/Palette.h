@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+static const NSInteger kMaxColorNum = 16;
+
 typedef void(^GetColorBlock)(NSInteger colorInt,NSString *colorString,UIColor *color);
 
 @interface Palette : NSObject
@@ -16,5 +18,11 @@ typedef void(^GetColorBlock)(NSInteger colorInt,NSString *colorString,UIColor *c
 - (instancetype)initWithImage:(UIImage*)image;
 
 - (void)startToAnalyzeImage:(GetColorBlock)block;
+
+@end
+
+@interface VBox : NSObject
+
+- (NSInteger)getVolume;
 
 @end

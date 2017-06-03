@@ -9,6 +9,7 @@
 #import "PaletteSwatch.h"
 #import "PaletteTarget.h"
 #import "PaletteColorUtils.h"
+#import "PriorityBoxArray.h"
 
 typedef NS_ENUM(NSInteger,COMPONENT_COLOR){
     COMPONENT_RED = 0,
@@ -18,12 +19,11 @@ typedef NS_ENUM(NSInteger,COMPONENT_COLOR){
 
 const NSInteger QUANTIZE_WORD_WIDTH = 5;
 const NSInteger QUANTIZE_WORD_MASK = (1 << QUANTIZE_WORD_WIDTH) - 1;
-const NSInteger maxColorNum = 16;
 const CGFloat resizeArea = 160 * 160;
 
 int hist[32768];
 
-@interface VBox :NSObject
+@interface VBox()
 
 @property (nonatomic,assign) NSInteger lowerIndex;
 
@@ -295,84 +295,11 @@ int hist[32768];
 
 @end
 
-@interface PaletteVBoxArray : NSObject
-
-@property (nonatomic,strong) NSMutableArray *vboxArray;
-
-@end
-
-@implementation PaletteVBoxArray
-
-- (instancetype)init{
-    self = [super init];
-    if (self){
-        _vboxArray = [[NSMutableArray alloc]init];
-    }
-    return self;
-}
-
-- (void)addVBox:(VBox*)box{
-    
-    if (![box isKindOfClass:[VBox class]]){
-        return;
-    }
-    if ([_vboxArray count] <= 0){
-        NSLog(@"第0个的Volume是%lu",[box getVolume]);
-        [_vboxArray addObject:box];
-        return;
-    }
-    
-    for (int i = 0 ; i < [_vboxArray count] ; i++){
-        //test
-        
-        //
-        VBox *nowBox = (VBox*)[_vboxArray objectAtIndex:i];
-        NSLog(@"第%d个的Volume是%lu",i,[nowBox getVolume]);
-
-        if ([box getVolume] > [nowBox getVolume]){
-            [_vboxArray insertObject:box atIndex:i];
-            if (_vboxArray.count > maxColorNum){
-                [_vboxArray removeObjectAtIndex:maxColorNum];
-            }
-            return;
-        }
-    
-        if ((i == [_vboxArray count] - 1) && _vboxArray.count < maxColorNum){
-            NSLog(@"第%d个的Volume是%lu",(i+1),[box getVolume]);
-            [_vboxArray addObject:box];
-            
-            return;
-        }
-    }
-}
-
-- (id)objectAtIndex:(NSInteger)i{
-    return [_vboxArray objectAtIndex:i];
-}
-
-//获取头部元素，并删除头部元素
-- (id)poll{
-    if (_vboxArray.count <= 0){
-        return nil;
-    }
-    id headObject = [_vboxArray objectAtIndex:0];
-    [_vboxArray removeObjectAtIndex:0];
-    return headObject;
-}
-
-- (NSUInteger)count{
-    return _vboxArray.count;
-}
-
-@end
-
-
-
 @interface Palette ()
 
 @property (nonatomic,strong) UIImage *image;
 
-@property (nonatomic,strong) PaletteVBoxArray *priorityArray;
+@property (nonatomic,strong) PriorityBoxArray *priorityArray;
 
 @property (nonatomic,strong) NSArray *swatchArray;
 
@@ -466,7 +393,7 @@ int hist[32768];
         //此时的index等于distinctColor的数目，需要--
         distinctColorIndex--;
         
-        if (distinctColorCount <= maxColorNum){
+        if (distinctColorCount <= kMaxColorNum){
             NSMutableArray *swatchs = [[NSMutableArray alloc]init];
             for (NSInteger i = 0;i < distinctColorCount ; i++){
                 NSInteger color = [_distinctColors[i] integerValue];
@@ -488,7 +415,7 @@ int hist[32768];
             
             _swatchArray = [swatchs copy];
         }else{
-            _priorityArray = [[PaletteVBoxArray alloc]init];
+            _priorityArray = [[PriorityBoxArray alloc]init];
             _colorVBox = [[VBox alloc]initWithLowerIndex:0 upperIndex:distinctColorIndex colorArray:_distinctColors];
             [_priorityArray addVBox:_colorVBox];
             // split the VBox
@@ -503,9 +430,9 @@ int hist[32768];
     });
 }
 
-- (void)splitBoxes:(PaletteVBoxArray*)queue{
+- (void)splitBoxes:(PriorityBoxArray*)queue{
     //queue is a priority queue.
-    while (queue.count < maxColorNum) {
+    while (queue.count < kMaxColorNum) {
         VBox *vbox = [queue poll];
         if (vbox != nil && [vbox canSplit]) {
             // First split the box, and offer the result
@@ -519,9 +446,9 @@ int hist[32768];
     }
 }
 
-- (NSArray*)generateAverageColors:(PaletteVBoxArray*)array{
+- (NSArray*)generateAverageColors:(PriorityBoxArray*)array{
     NSMutableArray *swatchs = [[NSMutableArray alloc]init];
-    NSMutableArray *vboxArray = array.vboxArray;
+    NSMutableArray *vboxArray = [array getVBoxArray];
     for (VBox *vbox in vboxArray){
         PaletteSwatch *swatch = [vbox getAverageColor];
         [swatchs addObject:swatch];

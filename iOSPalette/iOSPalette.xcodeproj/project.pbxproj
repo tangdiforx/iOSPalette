@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD14FF5D1EE2F055005E2052 /* PriorityBoxArray.h in Headers */ = {isa = PBXBuildFile; fileRef = FD14FF5B1EE2F055005E2052 /* PriorityBoxArray.h */; };
+		FD14FF5E1EE2F055005E2052 /* PriorityBoxArray.m in Sources */ = {isa = PBXBuildFile; fileRef = FD14FF5C1EE2F055005E2052 /* PriorityBoxArray.m */; };
 		FD7E94EB1EDFCA4B00A8392A /* iOSPalette.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD7E94E11EDFCA4B00A8392A /* iOSPalette.framework */; };
 		FD7E94F01EDFCA4B00A8392A /* iOSPaletteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FD7E94EF1EDFCA4B00A8392A /* iOSPaletteTests.m */; };
 		FD7E94F21EDFCA4B00A8392A /* iOSPalette.h in Headers */ = {isa = PBXBuildFile; fileRef = FD7E94E41EDFCA4B00A8392A /* iOSPalette.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -79,6 +81,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FD14FF5B1EE2F055005E2052 /* PriorityBoxArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PriorityBoxArray.h; sourceTree = "<group>"; };
+		FD14FF5C1EE2F055005E2052 /* PriorityBoxArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PriorityBoxArray.m; sourceTree = "<group>"; };
 		FD7E94E11EDFCA4B00A8392A /* iOSPalette.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = iOSPalette.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD7E94E41EDFCA4B00A8392A /* iOSPalette.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iOSPalette.h; sourceTree = "<group>"; };
 		FD7E94E51EDFCA4B00A8392A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -212,6 +216,8 @@
 				FD7E95171EDFCB3300A8392A /* PaletteTarget.m */,
 				FD7E95041EDFCABA00A8392A /* UIImage+Palette.h */,
 				FD7E95051EDFCABA00A8392A /* UIImage+Palette.m */,
+				FD14FF5B1EE2F055005E2052 /* PriorityBoxArray.h */,
+				FD14FF5C1EE2F055005E2052 /* PriorityBoxArray.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -273,6 +279,7 @@
 				FD7E94F21EDFCA4B00A8392A /* iOSPalette.h in Headers */,
 				FD7E950E1EDFCABA00A8392A /* UIImage+Palette.h in Headers */,
 				FD7E951E1EDFCB3300A8392A /* PaletteTarget.h in Headers */,
+				FD14FF5D1EE2F055005E2052 /* PriorityBoxArray.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -476,6 +483,7 @@
 				FD7E950F1EDFCABA00A8392A /* UIImage+Palette.m in Sources */,
 				FD7E95191EDFCB3300A8392A /* Palette.m in Sources */,
 				FD7E951B1EDFCB3300A8392A /* PaletteColorUtils.m in Sources */,
+				FD14FF5E1EE2F055005E2052 /* PriorityBoxArray.m in Sources */,
 				FD7E951D1EDFCB3300A8392A /* PaletteSwatch.m in Sources */,
 				FD7E951F1EDFCB3300A8392A /* PaletteTarget.m in Sources */,
 			);
