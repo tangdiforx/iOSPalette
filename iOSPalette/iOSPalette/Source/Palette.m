@@ -52,18 +52,21 @@ int hist[32768];
 - (instancetype)initWithLowerIndex:(NSInteger)lowerIndex upperIndex:(NSInteger)upperIndex colorArray:(NSMutableArray*)colorArray{
     self = [super init];
     if (self){
+        
         _lowerIndex = lowerIndex;
         _upperIndex = upperIndex;
         _distinctColors = colorArray;
     
         [self fitBox];
+        
     }
     return self;
 }
 
 - (NSInteger)getVolume{
-    return (_maxRed - _minRed + 1) * (_maxGreen - _minGreen + 1) *
+    NSInteger volume = (_maxRed - _minRed + 1) * (_maxGreen - _minGreen + 1) *
     (_maxBlue - _minBlue + 1);
+    return volume;
 }
 
 /**
@@ -123,7 +126,7 @@ int hist[32768];
     NSInteger sortIndex = 0;
     
     for (NSInteger index = _lowerIndex;index<= _upperIndex ;index++){
-        sortArray[sortIndex] = [_distinctColors[index] intValue];
+        sortArray[sortIndex] = [_distinctColors[index] integerValue];
         sortIndex++;
     }
     
@@ -248,7 +251,7 @@ int hist[32768];
     
     // Reset the min and max to opposite values
     NSInteger minRed, minGreen, minBlue;
-    minRed = minGreen = minBlue = 32678;
+    minRed = minGreen = minBlue = 32768;
     NSInteger maxRed, maxGreen, maxBlue;
     maxRed = maxGreen = maxBlue = 0;
     NSInteger count = 0;
@@ -314,17 +317,18 @@ int hist[32768];
         return;
     }
     if ([_vboxArray count] <= 0){
+        NSLog(@"第0个的Volume是%lu",[box getVolume]);
         [_vboxArray addObject:box];
         return;
     }
     
     for (int i = 0 ; i < [_vboxArray count] ; i++){
         //test
-        VBox *box = [_vboxArray objectAtIndex:i];
-        NSLog(@"第%d个的Volume是%lu",i,[box getVolume]);
         
         //
         VBox *nowBox = (VBox*)[_vboxArray objectAtIndex:i];
+        NSLog(@"第%d个的Volume是%lu",i,[nowBox getVolume]);
+
         if ([box getVolume] > [nowBox getVolume]){
             [_vboxArray insertObject:box atIndex:i];
             if (_vboxArray.count > maxColorNum){
@@ -332,8 +336,9 @@ int hist[32768];
             }
             return;
         }
-        
+    
         if ((i == [_vboxArray count] - 1) && _vboxArray.count < maxColorNum){
+            NSLog(@"第%d个的Volume是%lu",(i+1),[box getVolume]);
             [_vboxArray addObject:box];
             
             return;
@@ -343,6 +348,16 @@ int hist[32768];
 
 - (id)objectAtIndex:(NSInteger)i{
     return [_vboxArray objectAtIndex:i];
+}
+
+//获取头部元素，并删除头部元素
+- (id)poll{
+    if (_vboxArray.count <= 0){
+        return nil;
+    }
+    id headObject = [_vboxArray objectAtIndex:0];
+    [_vboxArray removeObjectAtIndex:0];
+    return headObject;
 }
 
 - (NSUInteger)count{
@@ -400,7 +415,7 @@ int hist[32768];
 #pragma mark - Core code to analyze the main color of a image
 
 - (void)startToAnalyzeImage:(GetColorBlock)block{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         _getColorBlock = block;
         
         [self clearHistArray];
@@ -485,14 +500,13 @@ int hist[32768];
         [self findMaxPopulation];
         
         [self getSwatchForTarget];
-    });
+//    });
 }
-
 
 - (void)splitBoxes:(PaletteVBoxArray*)queue{
     //queue is a priority queue.
     while (queue.count < maxColorNum) {
-        VBox *vbox = [queue objectAtIndex:0];
+        VBox *vbox = [queue poll];
         if (vbox != nil && [vbox canSplit]) {
             // First split the box, and offer the result
             [queue addVBox:[vbox splitBox]];
