@@ -415,7 +415,7 @@ int hist[32768];
 #pragma mark - Core code to analyze the main color of a image
 
 - (void)startToAnalyzeImage:(GetColorBlock)block{
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         _getColorBlock = block;
         
         [self clearHistArray];
@@ -500,7 +500,7 @@ int hist[32768];
         [self findMaxPopulation];
         
         [self getSwatchForTarget];
-//    });
+    });
 }
 
 - (void)splitBoxes:(PaletteVBoxArray*)queue{
@@ -535,7 +535,7 @@ int hist[32768];
 {
     // Get cg image and its size
     
-    image = [self scaleDownImage:image];
+//    image = [self scaleDownImage:image];
     
     CGImageRef cgImage = [image CGImage];
     NSUInteger width = CGImageGetWidth(cgImage);
