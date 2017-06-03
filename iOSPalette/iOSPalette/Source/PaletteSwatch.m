@@ -100,6 +100,7 @@ float constrain(float amount,float low,float high){
 
 //ColorInt
 - (NSInteger)getRGB{
+    //TODO 方式有问题
     NSString *colorString = [NSString stringWithFormat:@"#%1lx%1lx%1lx",_red,_green,_blue];
     return [colorString integerValue];
 }
@@ -115,6 +116,7 @@ float constrain(float amount,float low,float high){
 }
 
 - (NSString*)getColorString{
+    //TODO 方式有问题
     NSString *colorString = [NSString stringWithFormat:@"#%1lx%1lx%1lx",_red,_green,_blue];
     return colorString;
 }

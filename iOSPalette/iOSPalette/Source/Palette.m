@@ -133,8 +133,9 @@ int hist[32768];
     //bubble sort
     for(NSInteger i = 0; i < sortIndex-1; i++)
     {
+        
         bool isSorted = true;
-        //每一轮比较前n-1-i个，即已排序好的最后i个不用比较
+        
         for(NSInteger j=0; j<sortIndex-1-i; j++)
         {
             if(sortArray[j] > sortArray[j+1])
