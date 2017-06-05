@@ -10,7 +10,7 @@
 
 @implementation UIImage (Palette)
 
-- (void)getImageColor:(GetColorBlock)block{
+- (void)getPaletteImageColor:(GetColorBlock)block{
     Palette *palette = [[Palette alloc]initWithImage:self];
     [palette startToAnalyzeImage:block];
 }

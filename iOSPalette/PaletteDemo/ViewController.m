@@ -100,7 +100,7 @@
         CGImageRef fullRef = asset.defaultRepresentation.fullResolutionImage;
         UIImage *image =  [UIImage imageWithCGImage:fullRef];
         weakSelf.chooseImageView.image = image;
-        [image getImageColor:^(NSInteger colorInt, NSString *colorString,UIColor *color) {
+        [image getPaletteImageColor:^(NSInteger colorInt, NSString *colorString,UIColor *color) {
             weakSelf.chooseImageColorView.backgroundColor = color;
             if (!colorString){
                 weakSelf.showColorLabel.text = @"识别失败";

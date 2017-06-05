@@ -26,7 +26,7 @@
     return self;
 }
 
-
+//with the volume comparator
 - (void)addVBox:(VBox*)box{
     
     if (![box isKindOfClass:[VBox class]]){
@@ -38,7 +38,6 @@
     }
     
     for (int i = 0 ; i < [_vboxArray count] ; i++){
-        
         VBox *nowBox = (VBox*)[_vboxArray objectAtIndex:i];
         
         if ([box getVolume] > [nowBox getVolume]){

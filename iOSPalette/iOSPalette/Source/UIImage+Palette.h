@@ -11,6 +11,7 @@
 
 @interface UIImage (Palette)
 
-- (void)getImageColor:(GetColorBlock)block;
+//To avoid some weird problems,so I add the "Palette" prefix to the API declaration
+- (void)getPaletteImageColor:(GetColorBlock)block;
 
 @end
