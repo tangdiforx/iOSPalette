@@ -18,7 +18,7 @@
 
 - (VBox*)objectAtIndex:(NSInteger)i;
 
-//获取头部元素，并删除头部元素
+//Get the header element and delete it
 - (VBox*)poll;
 
 - (NSUInteger)count;

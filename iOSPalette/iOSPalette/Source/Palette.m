@@ -119,6 +119,7 @@ int hist[32768];
 }
 
 - (void)sortColorArray{
+    
     // Now sort... Arrays.sort uses a exclusive toIndex so we need to add 1
     
     NSInteger sortCount = _upperIndex - _lowerIndex;
@@ -130,23 +131,24 @@ int hist[32768];
         sortIndex++;
     }
     
+    NSInteger arrayLength = sortIndex;
+    
     //bubble sort
-    for(NSInteger i = 0; i < sortIndex-1; i++)
+    for(NSInteger i = 0; i < arrayLength-1; i++)
     {
-        
-        bool isSorted = true;
-        
-        for(NSInteger j=0; j<sortIndex-1-i; j++)
+        BOOL isSorted = YES;
+        for(NSInteger j=0; j<arrayLength-1-i; j++)
         {
             if(sortArray[j] > sortArray[j+1])
             {
-                isSorted = false;
+                isSorted = NO;
                 NSInteger temp = sortArray[j];
                 sortArray[j] = sortArray[j+1];
                 sortArray[j+1]=temp;
             }
         }
-        if(isSorted) break; //如果没有发生交换，说明数组已经排序好了
+        if(isSorted)
+            break;
     }
     
     sortIndex = 0;
@@ -391,7 +393,7 @@ int hist[32768];
             }
         }
         
-        //此时的index等于distinctColor的数目，需要--
+        // distinctColorIndex should be equal to (length - 1)
         distinctColorIndex--;
         
         if (distinctColorCount <= kMaxColorNum){

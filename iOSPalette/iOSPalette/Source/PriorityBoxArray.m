@@ -61,7 +61,6 @@
     return [_vboxArray objectAtIndex:i];
 }
 
-//获取头部元素，并删除头部元素
 - (id)poll{
     if (_vboxArray.count <= 0){
         return nil;
