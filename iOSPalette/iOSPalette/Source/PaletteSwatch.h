@@ -18,9 +18,9 @@
 //eg:"#FF3000"
 - (NSString*)getColorString;
 
-- (NSString*)getTitleTextColorString;
+//- (NSString*)getTitleTextColorString;
 
-- (NSString*)getBodyTextColorString;
+//- (NSString*)getBodyTextColorString;
 
 - (NSArray*)getHsl;
 

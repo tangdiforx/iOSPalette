@@ -99,11 +99,11 @@ float constrain(float amount,float low,float high){
 }
 
 - (NSString*)getTitleTextColorString{
-    return @"123";
+    return @"TODO";
 }
 
 - (NSString*)getBodyTextColorString{
-    return @"456";
+    return @"TODO";
 }
 
 - (NSString*)getColorString{
