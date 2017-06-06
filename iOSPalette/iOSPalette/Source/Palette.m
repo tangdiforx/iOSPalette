@@ -121,7 +121,7 @@ int hist[32768];
     
     // Now sort... Arrays.sort uses a exclusive toIndex so we need to add 1
     
-    NSInteger sortCount = _upperIndex - _lowerIndex;
+    NSInteger sortCount = (_upperIndex - _lowerIndex) + 1;
     NSInteger sortArray[sortCount];
     NSInteger sortIndex = 0;
     
@@ -465,7 +465,7 @@ int hist[32768];
 {
     // Get cg image and its size
     
-    //image = [self scaleDownImage:image];
+//    image = [self scaleDownImage:image];
     
     CGImageRef cgImage = [image CGImage];
     NSUInteger width = CGImageGetWidth(cgImage);
