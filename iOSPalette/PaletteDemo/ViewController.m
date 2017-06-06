@@ -6,14 +6,15 @@
 //  Copyright © 2017年 DylanTang. All rights reserved.
 //
 
+#import <AssetsLibrary/AssetsLibrary.h>
 #import "ViewController.h"
 #import "Palette.h"
-#import <AssetsLibrary/AssetsLibrary.h>
 #import "UIImage+Palette.h"
-#import "UIColor+TRIP.h"
+#import "UIColor+Hex.h"
+#import "UIView+Geometry.h"
+#import "DemoShowColorSingleView.h"
 
-
-@interface ViewController () <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface ViewController () <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 
 @property (nonatomic,assign) CGFloat screenWidth;
 
@@ -28,6 +29,11 @@
 @property (nonatomic,strong) UILabel *showColorLabel;
 
 @property (nonatomic,strong) ALAssetsLibrary *assetLibrary;
+
+/** ColorDisplayView */
+@property (nonatomic,strong) UICollectionView *colorDisplayView;
+
+@property (nonatomic,copy) NSDictionary *allModeColorDic;
 
 @end
 
@@ -61,17 +67,21 @@
     [self.view addSubview:_chooseImageBtn];
     
     CGFloat imageWidth = _screenWidth - 2 * 50.0f;
-    _chooseImageView = [[UIImageView alloc]initWithFrame:CGRectMake(50.0, 100.0f, imageWidth, imageWidth)];
+    _chooseImageView = [[UIImageView alloc]initWithFrame:CGRectMake(50.0f,_chooseImageBtn.bottom + 20.0f , imageWidth, imageWidth)];
     _chooseImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.view addSubview:_chooseImageView];
     
-    _chooseImageColorView = [[UIView alloc]initWithFrame:CGRectMake((self.screenWidth - 100.0f)/2, 420.0f, 100.0f, 100.0f)];
-    [self.view addSubview:_chooseImageColorView];
     
-    _showColorLabel = [[UILabel alloc]init];
-    _showColorLabel.textColor = [UIColor grayColor];
-    _showColorLabel.font = [UIFont systemFontOfSize:16.0f];
-    [self.view addSubview:_showColorLabel];
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
+    flowLayout.minimumLineSpacing      = 0.0f;
+    flowLayout.minimumInteritemSpacing = 0.0f;
+    
+    _colorDisplayView = [[UICollectionView alloc]initWithFrame:CGRectMake(0.0f,_chooseImageView.bottom + 30.0f, self.view.width, _screenHeight - (_chooseImageView.bottom + 30.0f)) collectionViewLayout:flowLayout];
+    _colorDisplayView.backgroundColor = [UIColor clearColor];
+    [_colorDisplayView registerClass:[DemoShowColorViewCell class] forCellWithReuseIdentifier:@"colorCell"];
+    _colorDisplayView.delegate = self;
+    _colorDisplayView.dataSource = self;
+    [self.view addSubview:_colorDisplayView];
 }
 
 - (void)goToChooseImage{
@@ -97,26 +107,76 @@
     
     __weak typeof (self) weakSelf = self;
     [self.assetLibrary assetForURL:assetUrl resultBlock:^(ALAsset *asset) {
-        NSLog(@"thread是%@",[NSThread currentThread]);
         CGImageRef fullRef = asset.defaultRepresentation.fullResolutionImage;
         UIImage *image =  [UIImage imageWithCGImage:fullRef];
         weakSelf.chooseImageView.image = image;
         [image getPaletteImageColorWithMode:ALL_MODE_PALETTE withCallBack:^(PaletteColorModel *recommendColor, NSDictionary *allModeColorDic) {
+            
             if (!recommendColor){
                 weakSelf.showColorLabel.text = @"识别失败";
                 return;
             }
-            weakSelf.chooseImageColorView.backgroundColor = [UIColor colorWithHexString:recommendColor.imageColorString];
-            weakSelf.showColorLabel.text = recommendColor.imageColorString;
-            [weakSelf.showColorLabel sizeToFit];
-            weakSelf.showColorLabel.frame = CGRectMake((weakSelf.screenWidth - weakSelf.showColorLabel.bounds.size.width)/2, 530.0f,weakSelf.showColorLabel.bounds.size.width,weakSelf.showColorLabel.bounds.size.height);
+            
+            weakSelf.allModeColorDic = allModeColorDic;
+            [weakSelf.colorDisplayView reloadData];
         }];
         
     } failureBlock:^(NSError *error) {
-        NSLog(@"出错了出错了");
+        NSLog(@"出错了");
     }];
 }
 
+#pragma mark - UICollectionViewDelegate
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    DemoShowColorViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"colorCell" forIndexPath:indexPath];
+    
+    if (!cell){
+        cell = [[DemoShowColorViewCell alloc]init];
+    }
+    PaletteColorModel *colorModel;
+    NSString *modeKey;
+    switch (indexPath.row) {
+        case 0:
+            colorModel = [self.allModeColorDic objectForKey:@"vibrant"];
+            modeKey = @"vibrant";
+            break;
+        case 1:
+            colorModel = [self.allModeColorDic objectForKey:@"muted"];
+            modeKey = @"muted";
+            break;
+        case 2:
+            colorModel = [self.allModeColorDic objectForKey:@"light_vibrant"];
+            modeKey = @"light_vibrant";
+            break;
+        case 3:
+            colorModel = [self.allModeColorDic objectForKey:@"light_muted"];
+            modeKey = @"light_muted";
+            break;
+        case 4:
+            colorModel = [self.allModeColorDic objectForKey:@"dark_vibrant"];
+            modeKey = @"dark_vibrant";
+            break;
+        case 5:
+            colorModel = [self.allModeColorDic objectForKey:@"dark_muted"];
+            modeKey = @"dark_muted";
+            break;
+            
+        default:
+            break;
+    }
+    [cell configureData:colorModel andKey:modeKey];
+    return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    return CGSizeMake(self.view.width / 2 , collectionView.height/3);
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return _allModeColorDic.count;
+}
+#pragma mark - lazyinit
 - (ALAssetsLibrary*)assetLibrary{
     if (!_assetLibrary){
         _assetLibrary = [[ALAssetsLibrary alloc]init];

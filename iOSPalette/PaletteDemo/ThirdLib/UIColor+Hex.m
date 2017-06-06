@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Taobao Trip. All rights reserved.
 //
 
-#import "UIColor+TRIP.h"
+#import "UIColor+Hex.h"
 
 @implementation UIColor (TRIP)
 

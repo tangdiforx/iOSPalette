@@ -620,8 +620,8 @@ int hist[32768];
         if (swatch){
             PaletteColorModel *colorModel = [[PaletteColorModel alloc]init];
             colorModel.imageColorString = [swatch getColorString];
-            colorModel.titleTextColorString = [swatch getTitleTextColorString];
-            colorModel.bodyTextColorString = [swatch getBodyTextColorString];
+//            colorModel.titleTextColorString = [swatch getTitleTextColorString];
+//            colorModel.bodyTextColorString = [swatch getBodyTextColorString];
             
             if (colorModel){
                 [finalDic setObject:colorModel forKey:[target getTargetKey]];

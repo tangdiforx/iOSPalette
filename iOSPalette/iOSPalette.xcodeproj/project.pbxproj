@@ -32,9 +32,11 @@
 		FD7E954C1EDFEEA200A8392A /* PaletteDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FD7E954B1EDFEEA200A8392A /* PaletteDemoUITests.m */; };
 		FD7E95571EDFEFA600A8392A /* iOSPalette.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD7E94E11EDFCA4B00A8392A /* iOSPalette.framework */; };
 		FD7E95581EDFEFA600A8392A /* iOSPalette.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FD7E94E11EDFCA4B00A8392A /* iOSPalette.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		FD7E955E1EE00C7500A8392A /* UIColor+TRIP.m in Sources */ = {isa = PBXBuildFile; fileRef = FD7E955D1EE00C7500A8392A /* UIColor+TRIP.m */; };
 		FDD2123E1EE645F200DFB26F /* PaletteColorModel.h in Headers */ = {isa = PBXBuildFile; fileRef = FDD2123C1EE645F200DFB26F /* PaletteColorModel.h */; };
 		FDD2123F1EE645F200DFB26F /* PaletteColorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD2123D1EE645F200DFB26F /* PaletteColorModel.m */; };
+		FDFB0CCB1EE6C2E4002835BF /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFB0CCA1EE6C2E4002835BF /* UIColor+Hex.m */; };
+		FDFB0CCE1EE6C35E002835BF /* UIView+Geometry.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFB0CCD1EE6C35E002835BF /* UIView+Geometry.m */; };
+		FDFB0CD41EE6C7E8002835BF /* DemoShowColorSingleView.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFB0CD31EE6C7E8002835BF /* DemoShowColorSingleView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,10 +119,14 @@
 		FD7E95471EDFEEA200A8392A /* PaletteDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaletteDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD7E954B1EDFEEA200A8392A /* PaletteDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaletteDemoUITests.m; sourceTree = "<group>"; };
 		FD7E954D1EDFEEA200A8392A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FD7E955C1EE00C7500A8392A /* UIColor+TRIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+TRIP.h"; sourceTree = "<group>"; };
-		FD7E955D1EE00C7500A8392A /* UIColor+TRIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+TRIP.m"; sourceTree = "<group>"; };
 		FDD2123C1EE645F200DFB26F /* PaletteColorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaletteColorModel.h; sourceTree = "<group>"; };
 		FDD2123D1EE645F200DFB26F /* PaletteColorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaletteColorModel.m; sourceTree = "<group>"; };
+		FDFB0CC91EE6C2E4002835BF /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
+		FDFB0CCA1EE6C2E4002835BF /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
+		FDFB0CCC1EE6C35E002835BF /* UIView+Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Geometry.h"; sourceTree = "<group>"; };
+		FDFB0CCD1EE6C35E002835BF /* UIView+Geometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Geometry.m"; sourceTree = "<group>"; };
+		FDFB0CD21EE6C7E8002835BF /* DemoShowColorSingleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DemoShowColorSingleView.h; path = ThirdLib/DemoShowColorSingleView.h; sourceTree = "<group>"; };
+		FDFB0CD31EE6C7E8002835BF /* DemoShowColorSingleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DemoShowColorSingleView.m; path = ThirdLib/DemoShowColorSingleView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,12 +236,13 @@
 		FD7E95251EDFEEA200A8392A /* PaletteDemo */ = {
 			isa = PBXGroup;
 			children = (
-				FD7E955C1EE00C7500A8392A /* UIColor+TRIP.h */,
-				FD7E955D1EE00C7500A8392A /* UIColor+TRIP.m */,
+				FDFB0CC81EE6C2E4002835BF /* ThirdLib */,
 				FD7E95291EDFEEA200A8392A /* AppDelegate.h */,
 				FD7E952A1EDFEEA200A8392A /* AppDelegate.m */,
 				FD7E952C1EDFEEA200A8392A /* ViewController.h */,
 				FD7E952D1EDFEEA200A8392A /* ViewController.m */,
+				FDFB0CD21EE6C7E8002835BF /* DemoShowColorSingleView.h */,
+				FDFB0CD31EE6C7E8002835BF /* DemoShowColorSingleView.m */,
 				FD7E952F1EDFEEA200A8392A /* Main.storyboard */,
 				FD7E95321EDFEEA200A8392A /* Assets.xcassets */,
 				FD7E95341EDFEEA200A8392A /* LaunchScreen.storyboard */,
@@ -278,6 +285,17 @@
 				FDD2123D1EE645F200DFB26F /* PaletteColorModel.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		FDFB0CC81EE6C2E4002835BF /* ThirdLib */ = {
+			isa = PBXGroup;
+			children = (
+				FDFB0CCC1EE6C35E002835BF /* UIView+Geometry.h */,
+				FDFB0CCD1EE6C35E002835BF /* UIView+Geometry.m */,
+				FDFB0CC91EE6C2E4002835BF /* UIColor+Hex.h */,
+				FDFB0CCA1EE6C2E4002835BF /* UIColor+Hex.m */,
+			);
+			path = ThirdLib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -517,7 +535,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD7E955E1EE00C7500A8392A /* UIColor+TRIP.m in Sources */,
+				FDFB0CCE1EE6C35E002835BF /* UIView+Geometry.m in Sources */,
+				FDFB0CD41EE6C7E8002835BF /* DemoShowColorSingleView.m in Sources */,
+				FDFB0CCB1EE6C2E4002835BF /* UIColor+Hex.m in Sources */,
 				FD7E952E1EDFEEA200A8392A /* ViewController.m in Sources */,
 				FD7E952B1EDFEEA200A8392A /* AppDelegate.m in Sources */,
 				FD7E95281EDFEEA200A8392A /* main.m in Sources */,

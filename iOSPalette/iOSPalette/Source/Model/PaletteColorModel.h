@@ -15,9 +15,9 @@
 @property (nonatomic,copy) NSString *imageColorString;
 
 /** TitleTextColorStirng */
-@property (nonatomic,copy) NSString *titleTextColorString;
+//@property (nonatomic,copy) NSString *titleTextColorString;
 
 /** bodyTextColorString */
-@property (nonatomic,copy) NSString *bodyTextColorString;
+//@property (nonatomic,copy) NSString *bodyTextColorString;
 
 @end

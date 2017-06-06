@@ -10,7 +10,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIColor (TRIP)
+@interface UIColor (Hex)
 
 //颜色分量提取，即R,G,B,A，请保证当前颜色域为RGB模式，否则无法获取
 @property (nonatomic, assign, readonly) CGFloat red;
