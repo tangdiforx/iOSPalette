@@ -56,11 +56,12 @@
     _chooseImageBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     [_chooseImageBtn setTitle:@"选择照片" forState:UIControlStateNormal];
     [_chooseImageBtn sizeToFit];
-    _chooseImageBtn.frame = CGRectMake((_screenWidth - _chooseImageBtn.bounds.size.width)/2, 100.0f, _chooseImageBtn.bounds.size.width,  _chooseImageBtn.bounds.size.height);
+    _chooseImageBtn.frame = CGRectMake((_screenWidth - _chooseImageBtn.bounds.size.width)/2, 50.0f, _chooseImageBtn.bounds.size.width,  _chooseImageBtn.bounds.size.height);
     [_chooseImageBtn addTarget:self action:@selector(goToChooseImage) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:_chooseImageBtn];
     
-    _chooseImageView = [[UIImageView alloc]initWithFrame:CGRectMake((self.screenWidth - 200.0f)/2, 200.0f, 200.0f, 200.0f)];
+    CGFloat imageWidth = _screenWidth - 2 * 50.0f;
+    _chooseImageView = [[UIImageView alloc]initWithFrame:CGRectMake(50.0, 100.0f, imageWidth, imageWidth)];
     _chooseImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.view addSubview:_chooseImageView];
     
