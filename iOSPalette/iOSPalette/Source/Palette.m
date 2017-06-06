@@ -307,8 +307,6 @@ int hist[32768];
 
 @property (nonatomic,strong) NSArray *targetArray;
 
-@property (nonatomic,strong) NSDictionary *finalSelectedSwatchs;
-
 @property (nonatomic,assign) NSInteger maxPopulation;
 
 @property (nonatomic,strong) NSMutableArray *distinctColors;
@@ -327,17 +325,8 @@ int hist[32768];
     self = [super init];
     if (self){
         _image = image;
-        [self initTargets];
     }
     return self;
-}
-
-- (void)initTargets{
-    NSMutableArray *targets = [[NSMutableArray alloc]init];
-    PaletteTarget *lightVibrantTarget = [[PaletteTarget alloc]initWithTargetMode:VIBRANT_PALETTE];
-    [targets addObject:lightVibrantTarget];
-    _targetArray = [targets copy];
-    
 }
 
 #pragma mark - Core code to analyze the main color of a image
@@ -614,17 +603,36 @@ int hist[32768];
 
 - (void)getSwatchForTarget{
     NSMutableDictionary *finalDic = [[NSMutableDictionary alloc]init];
-    
+    PaletteColorModel *recommendColorModel;
     for (NSInteger i = 0;i<_targetArray.count;i++){
         PaletteTarget *target = [_targetArray objectAtIndex:i];
         [target normalizeWeights];
         PaletteSwatch *swatch = [self getMaxScoredSwatchForTarget:target];
-//        if (swatch){
-//            [finalDic setObject:swatch forKey:[target getTargetKey]];
-//        }
+        if (swatch){
+            PaletteColorModel *colorModel = [[PaletteColorModel alloc]init];
+            colorModel.imageColorString = [swatch getColorString];
+            colorModel.titleTextColorString = [swatch getTitleTextColorString];
+            colorModel.bodyTextColorString = [swatch getBodyTextColorString];
+            
+            if (colorModel){
+                [finalDic setObject:colorModel forKey:[target getTargetKey]];
+            }
+            
+            if (!recommendColorModel){
+                recommendColorModel = colorModel;
+            }
+            
+        }else{
+            [finalDic setObject:@"unrecognized error" forKey:[target getTargetKey]];
+        }
     }
-//    _finalSelectedSwatchs = [finalDic copy];
     
+    
+    NSDictionary *finalColorDic = [finalDic copy];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _getColorBlock(recommendColorModel,finalColorDic);
+    });
+
 }
 
 - (PaletteSwatch*)getMaxScoredSwatchForTarget:(PaletteTarget*)target{
@@ -632,7 +640,6 @@ int hist[32768];
     PaletteSwatch *maxScoreSwatch = nil;
     for (NSInteger i = 0 ; i<_swatchArray.count; i++){
         PaletteSwatch *swatch = [_swatchArray objectAtIndex:i];
-        NSLog(@"swatch的color是%@",[swatch getColorString]);
         if ([self shouldBeScoredForTarget:swatch target:target]){
             CGFloat score = [self generateScoreForTarget:target swatch:swatch];
             if (maxScore == 0 || score > maxScore){

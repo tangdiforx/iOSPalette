@@ -15,17 +15,12 @@
 
 - (UIColor*)getColor;
 
-//ColorInt
-- (NSInteger)getRGB;
-
 //eg:"#FF3000"
 - (NSString*)getColorString;
 
-//ColorInt
-- (NSInteger)getTitleTextColor;
+- (NSString*)getTitleTextColorString;
 
-//ColorInt
-- (NSInteger)getBodyTextColor;
+- (NSString*)getBodyTextColorString;
 
 - (NSArray*)getHsl;
 

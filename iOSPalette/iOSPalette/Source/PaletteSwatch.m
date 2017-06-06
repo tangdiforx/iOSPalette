@@ -98,26 +98,17 @@ float constrain(float amount,float low,float high){
     return color  & ((1 << 8) - 1);
 }
 
-//ColorInt
-- (NSInteger)getRGB{
-    //TODO 方式有问题
-    NSString *colorString = [NSString stringWithFormat:@"#%1lx%1lx%1lx",_red,_green,_blue];
-    return [colorString integerValue];
+- (NSString*)getTitleTextColorString{
+    return @"123";
 }
 
-//ColorInt
-- (NSInteger)getTitleTextColor{
-    return 0;
-}
-
-//ColorInt
-- (NSInteger)getBodyTextColor{
-    return 0;
+- (NSString*)getBodyTextColorString{
+    return @"456";
 }
 
 - (NSString*)getColorString{
     //TODO 方式有问题
-    NSString *colorString = [NSString stringWithFormat:@"#%1lx%1lx%1lx",_red,_green,_blue];
+    NSString *colorString = [NSString stringWithFormat:@"#%02lx%02lx%02lx",_red,_green,_blue];
     return colorString;
 }
 

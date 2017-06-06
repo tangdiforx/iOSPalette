@@ -12,6 +12,10 @@
 @interface UIImage (Palette)
 
 //To avoid some weird problems,so I add the "Palette" prefix to the API declaration
+
+//you can use '|' to separate every target mode ,eg :"DARK_VIBRANT_PALETTE | VIBRANT_PALETTE"
+- (void)getPaletteImageColor:(GetColorBlock)block withMode:(PaletteTargetMode)mode;
+
 - (void)getPaletteImageColor:(GetColorBlock)block;
 
 @end

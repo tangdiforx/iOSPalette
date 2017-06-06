@@ -9,12 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "PaletteTarget.h"
+#import "PaletteColorModel.h"
 
 static const NSInteger kMaxColorNum = 16;
 
-typedef void(^GetColorBlock)(NSInteger colorInt,NSString *colorString,UIColor *color);
-
-
+typedef void(^GetColorBlock)(PaletteColorModel *recommendColor,NSDictionary *allModeColorDic);
 
 @interface Palette : NSObject
 

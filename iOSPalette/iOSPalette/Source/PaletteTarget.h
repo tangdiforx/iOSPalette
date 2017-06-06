@@ -42,7 +42,7 @@ typedef NS_ENUM(NSInteger,PaletteTargetMode) {
 
 - (void)normalizeWeights;
 
-- (void)getTargetKey;
+- (NSString*)getTargetKey;
 
 + (NSString*)getTargetModeKey:(PaletteTargetMode)mode;
 

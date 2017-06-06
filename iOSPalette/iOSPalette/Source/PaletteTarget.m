@@ -57,7 +57,6 @@ const NSInteger INDEX_WEIGHT_POP = 2;
     if (self){
         _mode = mode;
         [self initParams];
-        
         [self configureLumaAndSaturationWithMode:mode];
     }
     return self;
@@ -82,9 +81,8 @@ const NSInteger INDEX_WEIGHT_POP = 2;
             [self setDefaultVibrantSaturation];
             break;
         case VIBRANT_PALETTE:
-            [self setDefaultLightLuma];
+            [self setDefaultNormalLuma];
             [self setDefaultVibrantSaturation];
-
             break;
         case DARK_VIBRANT_PALETTE:
             [self setDefaultDarkLuma];
