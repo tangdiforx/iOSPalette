@@ -317,6 +317,9 @@ int hist[32768];
 /** specify mode */
 @property (nonatomic,assign) PaletteTargetMode mode;
 
+/** needColorDic */
+@property (nonatomic,assign) BOOL isNeedColorDic;
+
 @end
 
 @implementation Palette
@@ -332,7 +335,7 @@ int hist[32768];
 #pragma mark - Core code to analyze the main color of a image
 
 - (void)startToAnalyzeImage:(GetColorBlock)block{
-    [self startToAnalyzeImage:block forTargetMode:ALL_MODE_PALETTE];
+    [self startToAnalyzeImage:block forTargetMode:DEFAULT_NON_MODE_PALETTE];
 }
 
 - (void)startToAnalyzeImage:(GetColorBlock)block forTargetMode:(PaletteTargetMode)mode{
@@ -462,7 +465,7 @@ int hist[32768];
 {
     // Get cg image and its size
     
-//    image = [self scaleDownImage:image];
+    image = [self scaleDownImage:image];
     
     CGImageRef cgImage = [image CGImage];
     NSUInteger width = CGImageGetWidth(cgImage);
@@ -502,6 +505,7 @@ int hist[32768];
 }
 
 - (UIImage*)scaleDownImage:(UIImage*)image{
+    
     CGImageRef cgImage = [image CGImage];
     NSUInteger width = CGImageGetWidth(cgImage);
     NSUInteger height = CGImageGetHeight(cgImage);
@@ -526,7 +530,7 @@ int hist[32768];
 - (void)initTargetsWithMode:(PaletteTargetMode)mode{
     NSMutableArray *targets = [[NSMutableArray alloc]init];
     
-    if (mode < LIGHT_VIBRANT_PALETTE || mode > ALL_MODE_PALETTE || mode == ALL_MODE_PALETTE){
+    if (mode < VIBRANT_PALETTE || mode > ALL_MODE_PALETTE || mode == ALL_MODE_PALETTE){
         
         PaletteTarget *vibrantTarget = [[PaletteTarget alloc]initWithTargetMode:VIBRANT_PALETTE];
         [targets addObject:vibrantTarget];
@@ -573,6 +577,10 @@ int hist[32768];
         }
     }
     _targetArray = [targets copy];
+    
+    if (mode >= VIBRANT_PALETTE && mode <= ALL_MODE_PALETTE){
+        _isNeedColorDic = YES;
+    }
 }
 
 #pragma mark - utils method
@@ -620,6 +628,13 @@ int hist[32768];
             
             if (!recommendColorModel){
                 recommendColorModel = colorModel;
+                
+                if (!_isNeedColorDic){
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        _getColorBlock(recommendColorModel,nil);
+                    });
+                    return;
+                }
             }
             
         }else{
