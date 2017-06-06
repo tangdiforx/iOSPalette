@@ -335,7 +335,7 @@ int hist[32768];
 #pragma mark - Core code to analyze the main color of a image
 
 - (void)startToAnalyzeImage:(GetColorBlock)block{
-    [self startToAnalyzeImage:block forTargetMode:DEFAULT_NON_MODE_PALETTE];
+    [self startToAnalyzeImage:block forTargetMode:ALL_MODE_PALETTE];
 }
 
 - (void)startToAnalyzeImage:(GetColorBlock)block forTargetMode:(PaletteTargetMode)mode{
@@ -465,7 +465,7 @@ int hist[32768];
 {
     // Get cg image and its size
     
-    image = [self scaleDownImage:image];
+    //image = [self scaleDownImage:image];
     
     CGImageRef cgImage = [image CGImage];
     NSUInteger width = CGImageGetWidth(cgImage);
@@ -535,17 +535,19 @@ int hist[32768];
         PaletteTarget *vibrantTarget = [[PaletteTarget alloc]initWithTargetMode:VIBRANT_PALETTE];
         [targets addObject:vibrantTarget];
         
+        PaletteTarget *mutedTarget = [[PaletteTarget alloc]initWithTargetMode:MUTED_PALETTE];
+        [targets addObject:mutedTarget];
+
+        
         PaletteTarget *lightVibrantTarget = [[PaletteTarget alloc]initWithTargetMode:LIGHT_VIBRANT_PALETTE];
         [targets addObject:lightVibrantTarget];
         
-        PaletteTarget *darkVibrantTarget = [[PaletteTarget alloc]initWithTargetMode:DARK_VIBRANT_PALETTE];
-        [targets addObject:darkVibrantTarget];
-
         PaletteTarget *lightMutedTarget = [[PaletteTarget alloc]initWithTargetMode:LIGHT_MUTED_PALETTE];
         [targets addObject:lightMutedTarget];
 
-        PaletteTarget *mutedTarget = [[PaletteTarget alloc]initWithTargetMode:MUTED_PALETTE];
-        [targets addObject:mutedTarget];
+        
+        PaletteTarget *darkVibrantTarget = [[PaletteTarget alloc]initWithTargetMode:DARK_VIBRANT_PALETTE];
+        [targets addObject:darkVibrantTarget];
 
         PaletteTarget *darkMutedTarget = [[PaletteTarget alloc]initWithTargetMode:DARK_MUTED_PALETTE];
         [targets addObject:darkMutedTarget];
@@ -590,7 +592,6 @@ int hist[32768];
         hist[i] = 0;
     }
 }
-
 
 - (BOOL)shouldIgnoreColor:(NSInteger)color{
     return NO;

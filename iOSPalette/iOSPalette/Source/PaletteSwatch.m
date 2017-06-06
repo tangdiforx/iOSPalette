@@ -107,7 +107,6 @@ float constrain(float amount,float low,float high){
 }
 
 - (NSString*)getColorString{
-    //TODO 方式有问题
     NSString *colorString = [NSString stringWithFormat:@"#%02lx%02lx%02lx",_red,_green,_blue];
     return colorString;
 }
