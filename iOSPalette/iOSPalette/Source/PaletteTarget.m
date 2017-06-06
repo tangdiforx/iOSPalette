@@ -57,39 +57,52 @@ const NSInteger INDEX_WEIGHT_POP = 2;
     if (self){
         _mode = mode;
         [self initParams];
-        [self setLumaWithMode:mode];
-        [self setSaturationWithMode:mode];
-        [self setDefaultWeights];
+        
+        [self configureLumaAndSaturationWithMode:mode];
     }
     return self;
 }
 
-- (void)setLumaWithMode:(PaletteTargetMode)mode{
-    switch (mode) {
-        case LIGHT_VIBRANT_PALETTE:
-            [_lightnessTargets addObject:[NSNumber numberWithFloat:MIN_LIGHT_LUMA]];
-            [_lightnessTargets addObject:[NSNumber numberWithFloat:TARGET_LIGHT_LUMA]];
-            break;
-        case VIBRANT_PALETTE:
-            [_lightnessTargets addObject:[NSNumber numberWithFloat:MIN_NORMAL_LUMA]];
-            [_lightnessTargets addObject:[NSNumber numberWithFloat:TARGET_NORMAL_LUMA]];
-            [_lightnessTargets addObject:[NSNumber numberWithFloat:MAX_NORMAL_LUMA]];
-            break;
-        default:
-            break;
-    }
+- (void)initParams{
+    _saturationTargets = [[NSMutableArray alloc]init];
+    _lightnessTargets = [[NSMutableArray alloc]init];
+    _weights = [[NSMutableArray alloc]init];
+    
+    [self setDefaultWeights];
+    [self setDefaultLuma];
+    [self setDefaultSaturation];
 }
 
-- (void)setSaturationWithMode:(PaletteTargetMode)mode{
+#pragma mark - configure luma and saturation with mode
+
+- (void)configureLumaAndSaturationWithMode:(PaletteTargetMode)mode{
     switch (mode) {
         case LIGHT_VIBRANT_PALETTE:
-            [_saturationTargets addObject:[NSNumber numberWithFloat:MIN_VIBRANT_SATURATION]];
-            [_saturationTargets addObject:[NSNumber numberWithFloat:TARGET_VIBRANT_SATURATION]];
+            [self setDefaultLightLuma];
+            [self setDefaultVibrantSaturation];
             break;
-        
+        case VIBRANT_PALETTE:
+            [self setDefaultLightLuma];
+            [self setDefaultVibrantSaturation];
+
+            break;
+        case DARK_VIBRANT_PALETTE:
+            [self setDefaultDarkLuma];
+            [self setDefaultVibrantSaturation];
+            break;
+        case LIGHT_MUTED_PALETTE:
+            [self setDefaultLightLuma];
+            [self setDefaultMutedSaturation];
+            break;
+        case MUTED_PALETTE:
+            [self setDefaultNormalLuma];
+            [self setDefaultMutedSaturation];
+            break;
+        case DARK_MUTED_PALETTE:
+            [self setDefaultDarkLuma];
+            [self setDefaultMutedSaturation];
+            break;
         default:
-            [_saturationTargets addObject:[NSNumber numberWithFloat:MIN_VIBRANT_SATURATION]];
-            [_saturationTargets addObject:[NSNumber numberWithFloat:TARGET_VIBRANT_SATURATION]];
             break;
     }
 }
@@ -100,11 +113,45 @@ const NSInteger INDEX_WEIGHT_POP = 2;
     [_weights addObject:[NSNumber numberWithFloat:WEIGHT_POPULATION]];
 }
 
-- (void)initParams{
-    _saturationTargets = [[NSMutableArray alloc]init];
-    _lightnessTargets = [[NSMutableArray alloc]init];
-    _weights = [[NSMutableArray alloc]init];
+- (void)setDefaultLuma{
+    [_lightnessTargets addObject:[NSNumber numberWithFloat:0.0f]];
+    [_lightnessTargets addObject:[NSNumber numberWithFloat:0.5f]];
+    [_lightnessTargets addObject:[NSNumber numberWithFloat:1.0f]];
 }
+
+- (void)setDefaultSaturation{
+    [_saturationTargets addObject:[NSNumber numberWithFloat:0.0f]];
+    [_saturationTargets addObject:[NSNumber numberWithFloat:0.5f]];
+    [_saturationTargets addObject:[NSNumber numberWithFloat:1.0f]];
+}
+
+- (void)setDefaultLightLuma{
+    _lightnessTargets[INDEX_MIN] = [NSNumber numberWithFloat:MIN_LIGHT_LUMA];
+    _lightnessTargets[INDEX_TARGET] = [NSNumber numberWithFloat:TARGET_LIGHT_LUMA];
+}
+
+- (void)setDefaultNormalLuma{
+    _lightnessTargets[INDEX_MIN] = [NSNumber numberWithFloat:MIN_NORMAL_LUMA];
+    _lightnessTargets[INDEX_TARGET] = [NSNumber numberWithFloat:TARGET_NORMAL_LUMA];
+    _lightnessTargets[INDEX_MAX] = [NSNumber numberWithFloat:MAX_NORMAL_LUMA];
+}
+
+- (void)setDefaultDarkLuma{
+    _lightnessTargets[INDEX_TARGET] = [NSNumber numberWithFloat:TARGET_DARK_LUMA];
+    _lightnessTargets[INDEX_MAX] = [NSNumber numberWithFloat:MAX_DARK_LUMA];
+}
+
+- (void)setDefaultMutedSaturation{
+    _saturationTargets[INDEX_TARGET] = [NSNumber numberWithFloat:TARGET_MUTED_SATURATION];
+    _saturationTargets[INDEX_MAX] = [NSNumber numberWithFloat:MAX_MUTED_SATURATION];
+}
+
+- (void)setDefaultVibrantSaturation{
+    _saturationTargets[INDEX_MIN] = [NSNumber numberWithFloat:MIN_VIBRANT_SATURATION];
+    _saturationTargets[INDEX_TARGET] = [NSNumber numberWithFloat:TARGET_VIBRANT_SATURATION];
+}
+
+#pragma mark - getter
 
 - (float)getMinSaturation{
     return [_saturationTargets[INDEX_MIN] floatValue];
@@ -148,26 +195,6 @@ const NSInteger INDEX_WEIGHT_POP = 2;
 - (float)getTargetLuma{
     return [_lightnessTargets[INDEX_TARGET] floatValue];
 }
-
-- (void)normalizeWeights{
-    float sum = 0;
-    for (NSUInteger i = 0, z = [_weights count]; i < z; i++) {
-        float weight = [_weights[i] floatValue];
-        if (weight > 0) {
-            sum += weight;
-        }
-    }
-    if (sum != 0) {
-        for (NSUInteger i = 0, z = [_weights count]; i < z; i++) {
-            if ([_weights[i] floatValue] > 0) {
-                float weight = [_weights[i] floatValue];
-                weight /= sum;
-                _weights[i] = [NSNumber numberWithFloat:weight];
-            }
-        }
-    }
-}
-
 #pragma mark - utils
 + (NSString*)getTargetModeKey:(PaletteTargetMode)mode{
     NSString *key;
@@ -194,6 +221,25 @@ const NSInteger INDEX_WEIGHT_POP = 2;
             break;
     }
     return key;
+}
+
+- (void)normalizeWeights{
+    float sum = 0;
+    for (NSUInteger i = 0, z = [_weights count]; i < z; i++) {
+        float weight = [_weights[i] floatValue];
+        if (weight > 0) {
+            sum += weight;
+        }
+    }
+    if (sum != 0) {
+        for (NSUInteger i = 0, z = [_weights count]; i < z; i++) {
+            if ([_weights[i] floatValue] > 0) {
+                float weight = [_weights[i] floatValue];
+                weight /= sum;
+                _weights[i] = [NSNumber numberWithFloat:weight];
+            }
+        }
+    }
 }
 
 @end

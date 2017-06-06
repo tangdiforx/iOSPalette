@@ -316,7 +316,7 @@ int hist[32768];
 /** callback */
 @property (nonatomic,copy) GetColorBlock getColorBlock;
 
-/** specify mode  */
+/** specify mode */
 @property (nonatomic,assign) PaletteTargetMode mode;
 
 @end
@@ -337,18 +337,19 @@ int hist[32768];
     PaletteTarget *lightVibrantTarget = [[PaletteTarget alloc]initWithTargetMode:VIBRANT_PALETTE];
     [targets addObject:lightVibrantTarget];
     _targetArray = [targets copy];
+    
 }
 
 #pragma mark - Core code to analyze the main color of a image
 
 - (void)startToAnalyzeImage:(GetColorBlock)block{
-    _getColorBlock = block;
-    [self startToAnalyzeImage];
+    [self startToAnalyzeImage:block forTargetMode:ALL_MODE_PALETTE];
 }
 
-
 - (void)startToAnalyzeImage:(GetColorBlock)block forTargetMode:(PaletteTargetMode)mode{
-    
+    _getColorBlock = block;
+    [self initTargetsWithMode:mode];
+    [self startToAnalyzeImage];
 }
 
 - (void)startToAnalyzeImage{
@@ -531,6 +532,34 @@ int hist[32768];
         return image;
     }
     
+}
+
+- (void)initTargetsWithMode:(PaletteTargetMode)mode{
+    if (mode < LIGHT_VIBRANT_PALETTE || mode > ALL_MODE_PALETTE || mode == ALL_MODE_PALETTE){
+        NSMutableArray *targets = [[NSMutableArray alloc]init];
+        
+        PaletteTarget *vibrantTarget = [[PaletteTarget alloc]initWithTargetMode:VIBRANT_PALETTE];
+        [targets addObject:vibrantTarget];
+        
+        PaletteTarget *lightVibrantTarget = [[PaletteTarget alloc]initWithTargetMode:LIGHT_VIBRANT_PALETTE];
+        [targets addObject:lightVibrantTarget];
+        
+        PaletteTarget *darkVibrantTarget = [[PaletteTarget alloc]initWithTargetMode:DARK_VIBRANT_PALETTE];
+        [targets addObject:darkVibrantTarget];
+
+        PaletteTarget *lightMutedTarget = [[PaletteTarget alloc]initWithTargetMode:LIGHT_MUTED_PALETTE];
+        [targets addObject:lightMutedTarget];
+
+        PaletteTarget *mutedTarget = [[PaletteTarget alloc]initWithTargetMode:MUTED_PALETTE];
+        [targets addObject:mutedTarget];
+
+        PaletteTarget *darkMutedTarget = [[PaletteTarget alloc]initWithTargetMode:DARK_MUTED_PALETTE];
+        [targets addObject:darkMutedTarget];
+        
+        _targetArray = [targets copy];
+    }else{
+        
+    }
 }
 
 #pragma mark - utils method

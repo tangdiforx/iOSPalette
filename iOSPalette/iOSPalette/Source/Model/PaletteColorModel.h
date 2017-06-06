@@ -13,7 +13,7 @@
 /** ColorHexString eg:"#FFC300" */
 @property (nonatomic,copy) NSString *colorHexString;
 
-/** ColorInt eg:"" */
+/** ColorInt eg:"0xFFC300" */
 @property (nonatomic,assign) NSInteger colorInt;
 
 @end
