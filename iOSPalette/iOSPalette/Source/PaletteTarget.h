@@ -10,11 +10,11 @@
 
 typedef NS_ENUM(NSInteger,PaletteTargetMode) {
     LIGHT_VIBRANT_PALETTE = 0,
-    VIBRANT_PALETTE = 1,
-    DARK_VIBRANT_PALETTE = 2,
-    LIGHT_MUTED_PALETTE = 3,
-    MUTED_PALETTE = 4,
-    DARK_MUTED_PALETTE = 5
+    VIBRANT_PALETTE = 1 << 0,
+    DARK_VIBRANT_PALETTE = 1 << 1,
+    LIGHT_MUTED_PALETTE = 1 << 2,
+    MUTED_PALETTE = 1 << 3,
+    DARK_MUTED_PALETTE = 1 << 4
 };
 
 @interface PaletteTarget : NSObject
@@ -39,9 +39,8 @@ typedef NS_ENUM(NSInteger,PaletteTargetMode) {
 
 - (float)getTargetLuma;
 
-- (NSString*)getTargetKey;
-
 - (void)normalizeWeights;
 
++ (NSString*)getTargetModeKey:(PaletteTargetMode)mode;
 
 @end

@@ -8,10 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "PaletteTarget.h"
 
 static const NSInteger kMaxColorNum = 16;
 
 typedef void(^GetColorBlock)(NSInteger colorInt,NSString *colorString,UIColor *color);
+
+
 
 @interface Palette : NSObject
 
@@ -19,7 +22,12 @@ typedef void(^GetColorBlock)(NSInteger colorInt,NSString *colorString,UIColor *c
 
 - (void)startToAnalyzeImage:(GetColorBlock)block;
 
+//you can use '|' to separate every target mode ,eg :"DARK_VIBRANT_PALETTE | VIBRANT_PALETTE"
+- (void)startToAnalyzeImage:(GetColorBlock)block forTargetMode:(PaletteTargetMode)mode;
+
 @end
+
+
 
 @interface VBox : NSObject
 

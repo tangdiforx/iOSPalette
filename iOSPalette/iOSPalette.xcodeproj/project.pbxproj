@@ -33,6 +33,8 @@
 		FD7E95571EDFEFA600A8392A /* iOSPalette.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD7E94E11EDFCA4B00A8392A /* iOSPalette.framework */; };
 		FD7E95581EDFEFA600A8392A /* iOSPalette.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FD7E94E11EDFCA4B00A8392A /* iOSPalette.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FD7E955E1EE00C7500A8392A /* UIColor+TRIP.m in Sources */ = {isa = PBXBuildFile; fileRef = FD7E955D1EE00C7500A8392A /* UIColor+TRIP.m */; };
+		FDD2123E1EE645F200DFB26F /* PaletteColorModel.h in Headers */ = {isa = PBXBuildFile; fileRef = FDD2123C1EE645F200DFB26F /* PaletteColorModel.h */; };
+		FDD2123F1EE645F200DFB26F /* PaletteColorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD2123D1EE645F200DFB26F /* PaletteColorModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +119,8 @@
 		FD7E954D1EDFEEA200A8392A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD7E955C1EE00C7500A8392A /* UIColor+TRIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+TRIP.h"; sourceTree = "<group>"; };
 		FD7E955D1EE00C7500A8392A /* UIColor+TRIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+TRIP.m"; sourceTree = "<group>"; };
+		FDD2123C1EE645F200DFB26F /* PaletteColorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaletteColorModel.h; sourceTree = "<group>"; };
+		FDD2123D1EE645F200DFB26F /* PaletteColorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaletteColorModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +210,7 @@
 		FD7E94FB1EDFCABA00A8392A /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				FDD2123B1EE645E600DFB26F /* Model */,
 				FD7E95101EDFCB3300A8392A /* Palette.h */,
 				FD7E95111EDFCB3300A8392A /* Palette.m */,
 				FD7E95121EDFCB3300A8392A /* PaletteColorUtils.h */,
@@ -266,6 +271,15 @@
 			path = PaletteDemoUITests;
 			sourceTree = "<group>";
 		};
+		FDD2123B1EE645E600DFB26F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FDD2123C1EE645F200DFB26F /* PaletteColorModel.h */,
+				FDD2123D1EE645F200DFB26F /* PaletteColorModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -273,6 +287,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDD2123E1EE645F200DFB26F /* PaletteColorModel.h in Headers */,
 				FD7E951A1EDFCB3300A8392A /* PaletteColorUtils.h in Headers */,
 				FD7E95181EDFCB3300A8392A /* Palette.h in Headers */,
 				FD7E951C1EDFCB3300A8392A /* PaletteSwatch.h in Headers */,
@@ -485,6 +500,7 @@
 				FD7E951B1EDFCB3300A8392A /* PaletteColorUtils.m in Sources */,
 				FD14FF5E1EE2F055005E2052 /* PriorityBoxArray.m in Sources */,
 				FD7E951D1EDFCB3300A8392A /* PaletteSwatch.m in Sources */,
+				FDD2123F1EE645F200DFB26F /* PaletteColorModel.m in Sources */,
 				FD7E951F1EDFCB3300A8392A /* PaletteTarget.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

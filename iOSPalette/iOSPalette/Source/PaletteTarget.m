@@ -64,21 +64,6 @@ const NSInteger INDEX_WEIGHT_POP = 2;
     return self;
 }
 
-- (NSString*)getTargetKey{
-    NSString *key;
-    switch (_mode) {
-        case LIGHT_VIBRANT_PALETTE:
-            key = @"light_vibrant";
-            break;
-        case VIBRANT_PALETTE:
-            key = @"vibrant";
-            break;
-        default:
-            break;
-    }
-    return key;
-}
-
 - (void)setLumaWithMode:(PaletteTargetMode)mode{
     switch (mode) {
         case LIGHT_VIBRANT_PALETTE:
@@ -181,6 +166,34 @@ const NSInteger INDEX_WEIGHT_POP = 2;
             }
         }
     }
+}
+
+#pragma mark - utils
++ (NSString*)getTargetModeKey:(PaletteTargetMode)mode{
+    NSString *key;
+    switch (mode) {
+        case LIGHT_VIBRANT_PALETTE:
+            key = @"light_vibrant";
+            break;
+        case VIBRANT_PALETTE:
+            key = @"vibrant";
+            break;
+        case DARK_VIBRANT_PALETTE:
+            key = @"dark_vibrant";
+            break;
+        case LIGHT_MUTED_PALETTE:
+            key = @"light_muted";
+            break;
+        case MUTED_PALETTE:
+            key = @"muted";
+            break;
+        case DARK_MUTED_PALETTE:
+            key = @"dark_muted";
+            break;
+        default:
+            break;
+    }
+    return key;
 }
 
 @end

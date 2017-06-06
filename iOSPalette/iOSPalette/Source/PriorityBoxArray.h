@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+@class VBox;
+
 //A queue like PriorityQueue in Java
 
-@class VBox;
 @interface PriorityBoxArray : NSObject
-
 
 - (void)addVBox:(VBox*)box;
 

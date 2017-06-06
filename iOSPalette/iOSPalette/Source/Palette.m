@@ -7,7 +7,6 @@
 
 #import "Palette.h"
 #import "PaletteSwatch.h"
-#import "PaletteTarget.h"
 #import "PaletteColorUtils.h"
 #import "PriorityBoxArray.h"
 
@@ -306,13 +305,7 @@ int hist[32768];
 
 @property (nonatomic,strong) NSArray *swatchArray;
 
-@property (nonatomic,strong) NSArray *pixelArray;
-
 @property (nonatomic,strong) NSArray *targetArray;
-
-@property (nonatomic,strong) NSMutableArray *usedColors;
-
-@property (nonatomic,strong) VBox *colorVBox;
 
 @property (nonatomic,strong) NSDictionary *finalSelectedSwatchs;
 
@@ -320,7 +313,11 @@ int hist[32768];
 
 @property (nonatomic,strong) NSMutableArray *distinctColors;
 
+/** callback */
 @property (nonatomic,copy) GetColorBlock getColorBlock;
+
+/** specify mode  */
+@property (nonatomic,assign) PaletteTargetMode mode;
 
 @end
 
@@ -345,8 +342,17 @@ int hist[32768];
 #pragma mark - Core code to analyze the main color of a image
 
 - (void)startToAnalyzeImage:(GetColorBlock)block{
+    _getColorBlock = block;
+    [self startToAnalyzeImage];
+}
+
+
+- (void)startToAnalyzeImage:(GetColorBlock)block forTargetMode:(PaletteTargetMode)mode{
+    
+}
+
+- (void)startToAnalyzeImage{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        _getColorBlock = block;
         
         [self clearHistArray];
         
@@ -419,8 +425,8 @@ int hist[32768];
             _swatchArray = [swatchs copy];
         }else{
             _priorityArray = [[PriorityBoxArray alloc]init];
-            _colorVBox = [[VBox alloc]initWithLowerIndex:0 upperIndex:distinctColorIndex colorArray:_distinctColors];
-            [_priorityArray addVBox:_colorVBox];
+            VBox *colorVBox = [[VBox alloc]initWithLowerIndex:0 upperIndex:distinctColorIndex colorArray:_distinctColors];
+            [_priorityArray addVBox:colorVBox];
             // split the VBox
             [self splitBoxes:_priorityArray];
             //Switch VBox to Swatch
@@ -431,6 +437,7 @@ int hist[32768];
         
         [self getSwatchForTarget];
     });
+
 }
 
 - (void)splitBoxes:(PriorityBoxArray*)queue{
@@ -562,11 +569,11 @@ int hist[32768];
         dispatch_async(dispatch_get_main_queue(), ^{
             _getColorBlock([swatch getRGB],[swatch getColorString],[swatch getColor]);
         });
-        if (swatch){
-            [finalDic setObject:swatch forKey:[target getTargetKey]];
-        }
+//        if (swatch){
+//            [finalDic setObject:swatch forKey:[target getTargetKey]];
+//        }
     }
-    _finalSelectedSwatchs = [finalDic copy];
+//    _finalSelectedSwatchs = [finalDic copy];
 }
 
 - (PaletteSwatch*)getMaxScoredSwatchForTarget:(PaletteTarget*)target{
