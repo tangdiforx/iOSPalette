@@ -100,7 +100,7 @@
         CGImageRef fullRef = asset.defaultRepresentation.fullResolutionImage;
         UIImage *image =  [UIImage imageWithCGImage:fullRef];
         weakSelf.chooseImageView.image = image;
-        [image getPaletteImageColor:^(PaletteColorModel *recommendColor, NSDictionary *allModeColorDic) {
+        [image getPaletteImageColorWithMode:ALL_MODE_PALETTE withCallBack:^(PaletteColorModel *recommendColor, NSDictionary *allModeColorDic) {
             if (!recommendColor){
                 weakSelf.showColorLabel.text = @"识别失败";
                 return;
@@ -110,7 +110,7 @@
             [weakSelf.showColorLabel sizeToFit];
             weakSelf.showColorLabel.frame = CGRectMake((weakSelf.screenWidth - weakSelf.showColorLabel.bounds.size.width)/2, 530.0f,weakSelf.showColorLabel.bounds.size.width,weakSelf.showColorLabel.bounds.size.height);
         }];
-
+        
     } failureBlock:^(NSError *error) {
         NSLog(@"出错了出错了");
     }];

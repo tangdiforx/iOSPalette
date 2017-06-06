@@ -22,7 +22,9 @@ typedef void(^GetColorBlock)(PaletteColorModel *recommendColor,NSDictionary *all
 - (void)startToAnalyzeImage:(GetColorBlock)block;
 
 //you can use '|' to separate every target mode ,eg :"DARK_VIBRANT_PALETTE | VIBRANT_PALETTE"
-- (void)startToAnalyzeImage:(GetColorBlock)block forTargetMode:(PaletteTargetMode)mode;
+//- (void)startToAnalyzeImage:(GetColorBlock)block forTargetMode:(PaletteTargetMode)mode;
+
+- (void)startToAnalyzeForTargetMode:(PaletteTargetMode)mode withCallBack:(GetColorBlock)block;
 
 @end
 

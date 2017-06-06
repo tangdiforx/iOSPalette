@@ -15,4 +15,9 @@
     [palette startToAnalyzeImage:block];
 }
 
+- (void)getPaletteImageColorWithMode:(PaletteTargetMode)mode withCallBack:(GetColorBlock)block{
+    Palette *palette = [[Palette alloc]initWithImage:self];
+    [palette startToAnalyzeForTargetMode:mode withCallBack:block];
+}
+
 @end

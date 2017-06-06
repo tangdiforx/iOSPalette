@@ -335,10 +335,10 @@ int hist[32768];
 #pragma mark - Core code to analyze the main color of a image
 
 - (void)startToAnalyzeImage:(GetColorBlock)block{
-    [self startToAnalyzeImage:block forTargetMode:ALL_MODE_PALETTE];
+    [self startToAnalyzeForTargetMode:ALL_MODE_PALETTE withCallBack:block];
 }
 
-- (void)startToAnalyzeImage:(GetColorBlock)block forTargetMode:(PaletteTargetMode)mode{
+- (void)startToAnalyzeForTargetMode:(PaletteTargetMode)mode withCallBack:(GetColorBlock)block{
     _getColorBlock = block;
     [self initTargetsWithMode:mode];
     [self startToAnalyzeImage];
