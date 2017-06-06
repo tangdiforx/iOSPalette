@@ -535,8 +535,9 @@ int hist[32768];
 }
 
 - (void)initTargetsWithMode:(PaletteTargetMode)mode{
+    NSMutableArray *targets = [[NSMutableArray alloc]init];
+    
     if (mode < LIGHT_VIBRANT_PALETTE || mode > ALL_MODE_PALETTE || mode == ALL_MODE_PALETTE){
-        NSMutableArray *targets = [[NSMutableArray alloc]init];
         
         PaletteTarget *vibrantTarget = [[PaletteTarget alloc]initWithTargetMode:VIBRANT_PALETTE];
         [targets addObject:vibrantTarget];
@@ -556,10 +557,33 @@ int hist[32768];
         PaletteTarget *darkMutedTarget = [[PaletteTarget alloc]initWithTargetMode:DARK_MUTED_PALETTE];
         [targets addObject:darkMutedTarget];
         
-        _targetArray = [targets copy];
     }else{
-        
+        if (mode & (1 << 0)){
+            PaletteTarget *vibrantTarget = [[PaletteTarget alloc]initWithTargetMode:VIBRANT_PALETTE];
+            [targets addObject:vibrantTarget];
+        }
+        if (mode & (1 << 1)){
+            PaletteTarget *lightVibrantTarget = [[PaletteTarget alloc]initWithTargetMode:LIGHT_VIBRANT_PALETTE];
+            [targets addObject:lightVibrantTarget];
+        }
+        if (mode & (1 << 2)){
+            PaletteTarget *darkVibrantTarget = [[PaletteTarget alloc]initWithTargetMode:DARK_VIBRANT_PALETTE];
+            [targets addObject:darkVibrantTarget];
+        }
+        if (mode & (1 << 3)){
+            PaletteTarget *lightMutedTarget = [[PaletteTarget alloc]initWithTargetMode:LIGHT_MUTED_PALETTE];
+            [targets addObject:lightMutedTarget];
+        }
+        if (mode & (1 << 4)){
+            PaletteTarget *mutedTarget = [[PaletteTarget alloc]initWithTargetMode:MUTED_PALETTE];
+            [targets addObject:mutedTarget];
+        }
+        if (mode & (1 << 5)){
+            PaletteTarget *darkMutedTarget = [[PaletteTarget alloc]initWithTargetMode:DARK_MUTED_PALETTE];
+            [targets addObject:darkMutedTarget];
+        }
     }
+    _targetArray = [targets copy];
 }
 
 #pragma mark - utils method
@@ -595,14 +619,12 @@ int hist[32768];
         PaletteTarget *target = [_targetArray objectAtIndex:i];
         [target normalizeWeights];
         PaletteSwatch *swatch = [self getMaxScoredSwatchForTarget:target];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            _getColorBlock([swatch getRGB],[swatch getColorString],[swatch getColor]);
-        });
 //        if (swatch){
 //            [finalDic setObject:swatch forKey:[target getTargetKey]];
 //        }
     }
 //    _finalSelectedSwatchs = [finalDic copy];
+    
 }
 
 - (PaletteSwatch*)getMaxScoredSwatchForTarget:(PaletteTarget*)target{

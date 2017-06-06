@@ -196,6 +196,12 @@ const NSInteger INDEX_WEIGHT_POP = 2;
     return [_lightnessTargets[INDEX_TARGET] floatValue];
 }
 #pragma mark - utils
+
+- (NSString*)getTargetKey{
+    return [PaletteTarget getTargetModeKey:_mode];
+}
+
+
 + (NSString*)getTargetModeKey:(PaletteTargetMode)mode{
     NSString *key;
     switch (mode) {

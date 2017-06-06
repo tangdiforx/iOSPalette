@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface PaletteColorModel : NSObject
 
@@ -15,5 +16,8 @@
 
 /** ColorInt eg:"0xFFC300" */
 @property (nonatomic,assign) NSInteger colorInt;
+
+/** UIColor */
+@property (nonatomic,strong) UIColor *color;
 
 @end

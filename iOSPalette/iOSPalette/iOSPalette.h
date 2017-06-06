@@ -19,3 +19,4 @@ FOUNDATION_EXPORT const unsigned char iOSPaletteVersionString[];
 
 #import "Palette.h"
 #import "UIImage+Palette.h"
+#import "PaletteColorModel.h"
