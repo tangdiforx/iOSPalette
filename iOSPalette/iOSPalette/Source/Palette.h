@@ -13,7 +13,7 @@
 
 static const NSInteger kMaxColorNum = 16;
 
-typedef void(^GetColorBlock)(PaletteColorModel *recommendColor,NSDictionary *allModeColorDic);
+typedef void(^GetColorBlock)(PaletteColorModel *recommendColor,NSDictionary *allModeColorDic,NSError *error);
 
 @interface Palette : NSObject
 

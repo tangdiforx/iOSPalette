@@ -339,12 +339,25 @@ int hist[32768];
 }
 
 - (void)startToAnalyzeForTargetMode:(PaletteTargetMode)mode withCallBack:(GetColorBlock)block{
-    _getColorBlock = block;
     [self initTargetsWithMode:mode];
+    
+    //Check the image is nil or not
+    if (!_image){
+        NSDictionary *userInfo = @{
+                                   NSLocalizedDescriptionKey: NSLocalizedString(@"Operation fail", nil),
+                                   NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The image is nill.", nil),
+                                   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Check the image input please", nil)
+                                   };
+        NSError *nullImageError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileNoSuchFileError userInfo:userInfo];
+        block(nil,nil,nullImageError);
+        return;
+    }
+    _getColorBlock = block;
     [self startToAnalyzeImage];
 }
 
 - (void)startToAnalyzeImage{
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
         [self clearHistArray];
@@ -352,7 +365,14 @@ int hist[32768];
         // Get raw pixel data from image
         unsigned int pixelCount;
         unsigned char *rawData = [self rawPixelDataFromImage:_image pixelCount:&pixelCount];
-        if (!rawData){
+        if (!rawData || pixelCount <= 0){
+            NSDictionary *userInfo = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Operation fail", nil),
+                                        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The image is nill.", nil),
+                                        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Check the image input please", nil)
+                                           };
+            NSError *nullImageError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileNoSuchFileError userInfo:userInfo];
+            _getColorBlock(nil,nil,nullImageError);
             return;
         }
         
@@ -632,7 +652,7 @@ int hist[32768];
                 
                 if (!_isNeedColorDic){
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        _getColorBlock(recommendColorModel,nil);
+                        _getColorBlock(recommendColorModel,nil,nil);
                     });
                     return;
                 }
@@ -646,7 +666,7 @@ int hist[32768];
     
     NSDictionary *finalColorDic = [finalDic copy];
     dispatch_async(dispatch_get_main_queue(), ^{
-        _getColorBlock(recommendColorModel,finalColorDic);
+        _getColorBlock(recommendColorModel,finalColorDic,nil);
     });
 
 }

@@ -85,7 +85,6 @@
 }
 
 - (void)goToChooseImage{
-    
     UIImagePickerController *vc = [[UIImagePickerController alloc]init];
     vc.delegate = self;
     [self presentViewController:vc animated:YES completion:^{
@@ -110,7 +109,8 @@
         CGImageRef fullRef = asset.defaultRepresentation.fullResolutionImage;
         UIImage *image =  [UIImage imageWithCGImage:fullRef];
         weakSelf.chooseImageView.image = image;
-        [image getPaletteImageColorWithMode:ALL_MODE_PALETTE withCallBack:^(PaletteColorModel *recommendColor, NSDictionary *allModeColorDic) {
+                
+        [image getPaletteImageColorWithMode:ALL_MODE_PALETTE withCallBack:^(PaletteColorModel *recommendColor, NSDictionary *allModeColorDic,NSError *error) {
             
             if (!recommendColor){
                 weakSelf.showColorLabel.text = @"识别失败";
