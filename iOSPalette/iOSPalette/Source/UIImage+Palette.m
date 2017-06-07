@@ -13,6 +13,7 @@
 - (void)getPaletteImageColor:(GetColorBlock)block{
     Palette *palette = [[Palette alloc]initWithImage:self];
     [palette startToAnalyzeImage:block];
+    
 }
 
 - (void)getPaletteImageColorWithMode:(PaletteTargetMode)mode withCallBack:(GetColorBlock)block{
