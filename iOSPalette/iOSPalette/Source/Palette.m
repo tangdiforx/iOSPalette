@@ -227,6 +227,11 @@ int hist[32768];
         blueSum += colorPopulation * [PaletteColorUtils quantizedBlue:color];
     }
     
+    //in case of totalPopulation equals to 0
+    if (totalPopulation <= 0){
+        return nil;
+    }
+    
     NSInteger redMean = redSum / totalPopulation;
     NSInteger greenMean = greenSum / totalPopulation;
     NSInteger blueMean = blueSum / totalPopulation;
@@ -474,7 +479,9 @@ int hist[32768];
     NSMutableArray *vboxArray = [array getVBoxArray];
     for (VBox *vbox in vboxArray){
         PaletteSwatch *swatch = [vbox getAverageColor];
-        [swatchs addObject:swatch];
+        if (swatch){
+            [swatchs addObject:swatch];
+        }
     }
     return [swatchs copy];
 }
