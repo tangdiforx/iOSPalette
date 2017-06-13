@@ -11,8 +11,7 @@
 @implementation UIImage (Palette)
 
 - (void)getPaletteImageColor:(GetColorBlock)block{
-    Palette *palette = [[Palette alloc]initWithImage:self];
-    [palette startToAnalyzeImage:block];
+    [self getPaletteImageColorWithMode:DEFAULT_NON_MODE_PALETTE withCallBack:block];
     
 }
 
