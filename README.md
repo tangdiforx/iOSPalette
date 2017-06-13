@@ -1,5 +1,17 @@
 # iOSPalette
 
+## 0.1 TODO
+
+1."Showing the percentage of every color".Due to the [issue](https://github.com/tangdiforx/iOSPalette/issues/3).
+
+## 0.2 Change Log
+
+1. The iOSPalatte framework is a static framework,To avoid fail to load the category.You should add "-all_load" to your target "other linker flag" in the building settings.
+	
+2. Fix the memory leak.
+
+3. When you use the default API:"getPaletteImageColor",you will get a null "allcolorDic" in your callback block.
+
 ## 1.Introduction
 
 Objective-C version of Google Palette algorithm in Java.A tool to extract the main color of a image.Compare to traditional algorithm,iOSPalette can help you extract the main color which is more likely to be "The Main Color".It is not always the largest in pixel numbers.
