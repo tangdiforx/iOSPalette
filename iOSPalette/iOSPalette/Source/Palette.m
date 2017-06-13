@@ -397,6 +397,8 @@ int hist[32768];
             hist [quantizedColor] ++;
         }
         
+        free(rawData);
+        
         NSInteger distinctColorCount = 0;
         NSInteger length = sizeof(hist)/sizeof(hist[0]);
         for (NSInteger color = 0 ; color < length ;color++){
