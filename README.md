@@ -2,7 +2,7 @@
 
 ## 0.1 TODO
 
-1."Showing the percentage of every color".Due to the [issue](https://github.com/tangdiforx/iOSPalette/issues/3).
+Please open an issue if you want some new feature.
 
 ## 0.2 Change Log
 
@@ -11,6 +11,9 @@
 2. Fix the memory leak.
 
 3. When you use the default API:"getPaletteImageColor",you will get a null "allcolorDic" in your callback block.
+
+4. "Showing the percentage of every color".Due to the [issue](https://github.com/tangdiforx/iOSPalette/issues/3).
+
 
 ## 1.Introduction
 

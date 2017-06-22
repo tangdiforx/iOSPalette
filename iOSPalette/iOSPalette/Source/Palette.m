@@ -316,6 +316,9 @@ int hist[32768];
 
 @property (nonatomic,strong) NSMutableArray *distinctColors;
 
+/** the pixel count of the image */
+@property (nonatomic,assign) NSInteger pixelCount;
+
 /** callback */
 @property (nonatomic,copy) GetColorBlock getColorBlock;
 
@@ -368,9 +371,8 @@ int hist[32768];
         [self clearHistArray];
         
         // Get raw pixel data from image
-        unsigned int pixelCount;
-        unsigned char *rawData = [self rawPixelDataFromImage:_image pixelCount:&pixelCount];
-        if (!rawData || pixelCount <= 0){
+        unsigned char *rawData = [self rawPixelDataFromImage:_image];
+        if (!rawData || self.pixelCount <= 0){
             NSDictionary *userInfo = @{
                                        NSLocalizedDescriptionKey: NSLocalizedString(@"Operation fail", nil),
                                         NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The image is nill.", nil),
@@ -382,7 +384,7 @@ int hist[32768];
         }
         
         NSInteger red,green,blue;
-        for (int pixelIndex = 0 ; pixelIndex < pixelCount; pixelIndex++){
+        for (int pixelIndex = 0 ; pixelIndex < self.pixelCount; pixelIndex++){
             
             red   = (NSInteger)rawData[pixelIndex*4+0];
             green = (NSInteger)rawData[pixelIndex*4+1];
@@ -490,8 +492,7 @@ int hist[32768];
 
 #pragma mark - image compress
 
-- (unsigned char *)rawPixelDataFromImage:(UIImage *)image pixelCount:(unsigned int*)pixelCount
-{
+- (unsigned char *)rawPixelDataFromImage:(UIImage *)image{
     // Get cg image and its size
     
 //    image = [self scaleDownImage:image];
@@ -527,7 +528,7 @@ int hist[32768];
     CGContextRelease(context);
     
     // Write pixel count to passed pointer
-    *pixelCount = (int)width * (int)height;
+    self.pixelCount = (NSInteger)width * (NSInteger)height;
     
     // Return pixel data (needs to be freed)
     return rawData;
@@ -566,7 +567,6 @@ int hist[32768];
         
         PaletteTarget *mutedTarget = [[PaletteTarget alloc]initWithTargetMode:MUTED_PALETTE];
         [targets addObject:mutedTarget];
-
         
         PaletteTarget *lightVibrantTarget = [[PaletteTarget alloc]initWithTargetMode:LIGHT_VIBRANT_PALETTE];
         [targets addObject:lightVibrantTarget];
@@ -574,7 +574,6 @@ int hist[32768];
         PaletteTarget *lightMutedTarget = [[PaletteTarget alloc]initWithTargetMode:LIGHT_MUTED_PALETTE];
         [targets addObject:lightMutedTarget];
 
-        
         PaletteTarget *darkVibrantTarget = [[PaletteTarget alloc]initWithTargetMode:DARK_VIBRANT_PALETTE];
         [targets addObject:darkVibrantTarget];
 
@@ -649,6 +648,9 @@ int hist[32768];
         if (swatch){
             PaletteColorModel *colorModel = [[PaletteColorModel alloc]init];
             colorModel.imageColorString = [swatch getColorString];
+            
+            colorModel.percentage = (CGFloat)[swatch getPopulation]/(CGFloat)self.pixelCount;
+            
 //            colorModel.titleTextColorString = [swatch getTitleTextColorString];
 //            colorModel.bodyTextColorString = [swatch getBodyTextColorString];
             

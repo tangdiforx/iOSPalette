@@ -14,6 +14,9 @@
 /** ColorHexString eg:"#FFC300" */
 @property (nonatomic,copy) NSString *imageColorString;
 
+/** the percentage of the color,default value is 0 */
+@property (nonatomic,assign) CGFloat percentage;
+
 /** TitleTextColorStirng */
 //@property (nonatomic,copy) NSString *titleTextColorString;
 
