@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger,PaletteTargetMode) {
+typedef NS_OPTIONS(NSInteger,PaletteTargetMode) {
     DEFAULT_NON_MODE_PALETTE = 0,//if you don't need the ColorDic(including modeKey-colorModel key-value)
     VIBRANT_PALETTE = 1 << 0,
     LIGHT_VIBRANT_PALETTE = 1 << 1,
