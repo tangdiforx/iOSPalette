@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		128F541F2192E28900268F66 /* UIColor+Complementary.m in Sources */ = {isa = PBXBuildFile; fileRef = 128F541D2192E28800268F66 /* UIColor+Complementary.m */; };
 		FD14FF5D1EE2F055005E2052 /* PriorityBoxArray.h in Headers */ = {isa = PBXBuildFile; fileRef = FD14FF5B1EE2F055005E2052 /* PriorityBoxArray.h */; };
 		FD14FF5E1EE2F055005E2052 /* PriorityBoxArray.m in Sources */ = {isa = PBXBuildFile; fileRef = FD14FF5C1EE2F055005E2052 /* PriorityBoxArray.m */; };
 		FD7E94EB1EDFCA4B00A8392A /* iOSPalette.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD7E94E11EDFCA4B00A8392A /* iOSPalette.framework */; };
@@ -85,6 +86,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		128F541D2192E28800268F66 /* UIColor+Complementary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Complementary.m"; sourceTree = "<group>"; };
+		128F541E2192E28900268F66 /* UIColor+Complementary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Complementary.h"; sourceTree = "<group>"; };
 		FD14FF5B1EE2F055005E2052 /* PriorityBoxArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PriorityBoxArray.h; sourceTree = "<group>"; };
 		FD14FF5C1EE2F055005E2052 /* PriorityBoxArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PriorityBoxArray.m; sourceTree = "<group>"; };
 		FD7E94E11EDFCA4B00A8392A /* iOSPalette.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = iOSPalette.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -294,6 +297,8 @@
 				FDFB0CCD1EE6C35E002835BF /* UIView+Geometry.m */,
 				FDFB0CC91EE6C2E4002835BF /* UIColor+Hex.h */,
 				FDFB0CCA1EE6C2E4002835BF /* UIColor+Hex.m */,
+				128F541E2192E28900268F66 /* UIColor+Complementary.h */,
+				128F541D2192E28800268F66 /* UIColor+Complementary.m */,
 			);
 			path = ThirdLib;
 			sourceTree = "<group>";
@@ -539,6 +544,7 @@
 				FDFB0CD41EE6C7E8002835BF /* DemoShowColorSingleView.m in Sources */,
 				FDFB0CCB1EE6C2E4002835BF /* UIColor+Hex.m in Sources */,
 				FD7E952E1EDFEEA200A8392A /* ViewController.m in Sources */,
+				128F541F2192E28900268F66 /* UIColor+Complementary.m in Sources */,
 				FD7E952B1EDFEEA200A8392A /* AppDelegate.m in Sources */,
 				FD7E95281EDFEEA200A8392A /* main.m in Sources */,
 			);
