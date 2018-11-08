@@ -13,6 +13,9 @@
 #import "UIColor+Hex.h"
 #import "UIView+Geometry.h"
 #import "DemoShowColorSingleView.h"
+#import "UIButton+BlackWhiteImage.h"
+#import "UIImage+Extension.h"
+#import "UIView+snapshot.h"
 
 @interface ViewController () <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 
@@ -34,6 +37,8 @@
 @property (nonatomic,strong) UICollectionView *colorDisplayView;
 
 @property (nonatomic,copy) NSDictionary *allModeColorDic;
+
+@property (strong, nonatomic) UIButton* backButton;
 
 @end
 
@@ -82,6 +87,14 @@
     _colorDisplayView.delegate = self;
     _colorDisplayView.dataSource = self;
     [self.view addSubview:_colorDisplayView];
+    
+    _chooseImageView.contentMode = UIViewContentModeScaleAspectFill;
+    _chooseImageView.clipsToBounds = YES;
+    
+    [self.view addSubview:self.backButton];
+    self.backButton.center = self.chooseImageView.center;
+
+
 }
 
 - (void)goToChooseImage{
@@ -109,7 +122,7 @@
         CGImageRef fullRef = asset.defaultRepresentation.fullResolutionImage;
         UIImage *image =  [UIImage imageWithCGImage:fullRef];
         weakSelf.chooseImageView.image = image;
-                
+        [weakSelf.backButton setBlackWhiteImageWithImage:[UIImage imageNamed:@"返回"] backgroundView:weakSelf.chooseImageView];
         [image getPaletteImageColorWithMode:ALL_MODE_PALETTE withCallBack:^(PaletteColorModel *recommendColor, NSDictionary *allModeColorDic,NSError *error) {
             
             if (!recommendColor){
@@ -183,5 +196,12 @@
     }
     return _assetLibrary;
 }
-
+-(UIButton*)backButton{
+    if(!_backButton){
+        _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _backButton.frame = CGRectMake(0, 0, 22, 22);
+        _backButton.backgroundColor = [UIColor clearColor];
+    }
+    return _backButton;
+}
 @end
