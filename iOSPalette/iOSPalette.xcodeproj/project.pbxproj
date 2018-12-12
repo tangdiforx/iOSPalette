@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		12754C8E2193CC33005A7048 /* UIButton+BlackWhiteImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 12754C8D2193CC33005A7048 /* UIButton+BlackWhiteImage.m */; };
+		12754C922193CDEB005A7048 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 12754C912193CDEB005A7048 /* UIImage+Extension.m */; };
+		12754C952193DD23005A7048 /* UIView+snapshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 12754C942193DD22005A7048 /* UIView+snapshot.m */; };
+		128F541F2192E28900268F66 /* UIColor+Complementary.m in Sources */ = {isa = PBXBuildFile; fileRef = 128F541D2192E28800268F66 /* UIColor+Complementary.m */; };
 		FD14FF5D1EE2F055005E2052 /* PriorityBoxArray.h in Headers */ = {isa = PBXBuildFile; fileRef = FD14FF5B1EE2F055005E2052 /* PriorityBoxArray.h */; };
 		FD14FF5E1EE2F055005E2052 /* PriorityBoxArray.m in Sources */ = {isa = PBXBuildFile; fileRef = FD14FF5C1EE2F055005E2052 /* PriorityBoxArray.m */; };
 		FD7E94EB1EDFCA4B00A8392A /* iOSPalette.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD7E94E11EDFCA4B00A8392A /* iOSPalette.framework */; };
@@ -85,6 +89,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		12754C8C2193CC33005A7048 /* UIButton+BlackWhiteImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+BlackWhiteImage.h"; sourceTree = "<group>"; };
+		12754C8D2193CC33005A7048 /* UIButton+BlackWhiteImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+BlackWhiteImage.m"; sourceTree = "<group>"; };
+		12754C902193CDEB005A7048 /* UIImage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
+		12754C912193CDEB005A7048 /* UIImage+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
+		12754C932193DD22005A7048 /* UIView+snapshot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+snapshot.h"; sourceTree = "<group>"; };
+		12754C942193DD22005A7048 /* UIView+snapshot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+snapshot.m"; sourceTree = "<group>"; };
+		128F541D2192E28800268F66 /* UIColor+Complementary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Complementary.m"; sourceTree = "<group>"; };
+		128F541E2192E28900268F66 /* UIColor+Complementary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Complementary.h"; sourceTree = "<group>"; };
 		FD14FF5B1EE2F055005E2052 /* PriorityBoxArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PriorityBoxArray.h; sourceTree = "<group>"; };
 		FD14FF5C1EE2F055005E2052 /* PriorityBoxArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PriorityBoxArray.m; sourceTree = "<group>"; };
 		FD7E94E11EDFCA4B00A8392A /* iOSPalette.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = iOSPalette.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -294,6 +306,14 @@
 				FDFB0CCD1EE6C35E002835BF /* UIView+Geometry.m */,
 				FDFB0CC91EE6C2E4002835BF /* UIColor+Hex.h */,
 				FDFB0CCA1EE6C2E4002835BF /* UIColor+Hex.m */,
+				12754C932193DD22005A7048 /* UIView+snapshot.h */,
+				12754C942193DD22005A7048 /* UIView+snapshot.m */,
+				128F541E2192E28900268F66 /* UIColor+Complementary.h */,
+				128F541D2192E28800268F66 /* UIColor+Complementary.m */,
+				12754C902193CDEB005A7048 /* UIImage+Extension.h */,
+				12754C912193CDEB005A7048 /* UIImage+Extension.m */,
+				12754C8C2193CC33005A7048 /* UIButton+BlackWhiteImage.h */,
+				12754C8D2193CC33005A7048 /* UIButton+BlackWhiteImage.m */,
 			);
 			path = ThirdLib;
 			sourceTree = "<group>";
@@ -538,7 +558,11 @@
 				FDFB0CCE1EE6C35E002835BF /* UIView+Geometry.m in Sources */,
 				FDFB0CD41EE6C7E8002835BF /* DemoShowColorSingleView.m in Sources */,
 				FDFB0CCB1EE6C2E4002835BF /* UIColor+Hex.m in Sources */,
+				12754C8E2193CC33005A7048 /* UIButton+BlackWhiteImage.m in Sources */,
 				FD7E952E1EDFEEA200A8392A /* ViewController.m in Sources */,
+				128F541F2192E28900268F66 /* UIColor+Complementary.m in Sources */,
+				12754C952193DD23005A7048 /* UIView+snapshot.m in Sources */,
+				12754C922193CDEB005A7048 /* UIImage+Extension.m in Sources */,
 				FD7E952B1EDFEEA200A8392A /* AppDelegate.m in Sources */,
 				FD7E95281EDFEEA200A8392A /* main.m in Sources */,
 			);

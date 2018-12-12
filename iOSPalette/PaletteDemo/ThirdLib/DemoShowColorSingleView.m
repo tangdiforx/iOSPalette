@@ -9,6 +9,7 @@
 #import "DemoShowColorSingleView.h"
 #import "UIView+Geometry.h"
 #import "UIColor+Hex.h"
+#import "UIColor+Complementary.h"
 
 @interface DemoShowColorViewCell ()
 
@@ -61,6 +62,9 @@
     _showPercentageLabel.text = percentageText;
     [_showPercentageLabel sizeToFit];
     _showPercentageLabel.origin = CGPointMake((self.width - _showPercentageLabel.width)/2, _showColorLabel.bottom + 5.0f);
+    
+    _showColorLabel.textColor = _showPercentageLabel.textColor = [self.backgroundColor blackWhiteComplementaryColor];
+
 }
 
 @end
