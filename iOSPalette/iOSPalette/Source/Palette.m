@@ -366,7 +366,7 @@ int hist[32768];
 
 - (void)startToAnalyzeImage{
 
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    @synchronized (self) {
         
         [self clearHistArray];
         
@@ -458,7 +458,7 @@ int hist[32768];
         [self findMaxPopulation];
         
         [self getSwatchForTarget];
-    });
+    }
 
 }
 
