@@ -13,7 +13,7 @@
 
 /** ColorHexString eg:"#FFC300" */
 @property (nonatomic,copy) NSString *imageColorString;
-
+@property (nonatomic, strong) UIColor *color;
 /** the percentage of the color,default value is 0 */
 @property (nonatomic,assign) CGFloat percentage;
 
