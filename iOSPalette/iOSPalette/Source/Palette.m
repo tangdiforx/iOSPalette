@@ -19,8 +19,7 @@ typedef NS_ENUM(NSInteger,COMPONENT_COLOR){
 const NSInteger QUANTIZE_WORD_WIDTH = 5;
 const NSInteger QUANTIZE_WORD_MASK = (1 << QUANTIZE_WORD_WIDTH) - 1;
 const CGFloat resizeArea = 160 * 160;
-
-int hist[32768];
+const int histLength = 32768;
 
 @interface VBox()
 
@@ -44,23 +43,36 @@ int hist[32768];
 
 @property (nonatomic,assign) NSInteger maxBlue;
 
+@property(nonatomic, assign) int *hist;
+
+@property(nonatomic, assign) int length;
+
 @end
 
 @implementation VBox
 
-- (instancetype)initWithLowerIndex:(NSInteger)lowerIndex upperIndex:(NSInteger)upperIndex colorArray:(NSMutableArray*)colorArray{
+- (instancetype)initWithLowerIndex:(NSInteger)lowerIndex upperIndex:(NSInteger)upperIndex colorArray:(NSMutableArray*)colorArray hist:(int *)hist length:(int)length {
     self = [super init];
     if (self){
         
         _lowerIndex = lowerIndex;
         _upperIndex = upperIndex;
         _distinctColors = colorArray;
-    
+        _length = length;
+        _hist = (int *)malloc(sizeof(int)*length);
+        memcpy(_hist, hist,sizeof(int)*length);
         [self fitBox];
         
     }
     return self;
 }
+
+- (void)dealloc {
+    
+    free(_hist);
+    _hist = NULL;
+}
+
 
 - (NSInteger)getVolume{
     NSInteger volume = (_maxRed - _minRed + 1) * (_maxGreen - _minGreen + 1) *
@@ -81,7 +93,7 @@ int hist[32768];
     // find median along the longest dimension
     NSInteger splitPoint = [self findSplitPoint];
     
-    VBox *newBox = [[VBox alloc]initWithLowerIndex:splitPoint+1 upperIndex:_upperIndex colorArray:_distinctColors];
+    VBox *newBox = [[VBox alloc]initWithLowerIndex:splitPoint+1 upperIndex:_upperIndex colorArray:_distinctColors hist:self.hist length:self.length];
     
     // Now change this box's upperIndex and recompute the color boundaries
     _upperIndex = splitPoint;
@@ -107,7 +119,7 @@ int hist[32768];
     
     NSInteger midPoint = _population / 2;
     for (NSInteger i = _lowerIndex, count = 0; i <= _upperIndex; i++)  {
-        NSInteger population = hist[[_distinctColors[i] intValue]];
+        NSInteger population = self.hist[[_distinctColors[i] intValue]];
         count += population;
         if (count >= midPoint) {
             return i;
@@ -218,7 +230,7 @@ int hist[32768];
     
     for (NSInteger i = _lowerIndex; i <= _upperIndex; i++) {
         NSInteger color = [_distinctColors[i] intValue];
-        NSInteger colorPopulation = hist[color];
+        NSInteger colorPopulation = self.hist[color];
         
         totalPopulation += colorPopulation;
         
@@ -258,14 +270,14 @@ int hist[32768];
     
     // Reset the min and max to opposite values
     NSInteger minRed, minGreen, minBlue;
-    minRed = minGreen = minBlue = 32768;
+    minRed = minGreen = minBlue = histLength;
     NSInteger maxRed, maxGreen, maxBlue;
     maxRed = maxGreen = maxBlue = 0;
     NSInteger count = 0;
     
     for (NSInteger i = _lowerIndex; i <= _upperIndex; i++) {
         NSInteger color = [_distinctColors[i] intValue];
-        count += hist[color];
+        count += self.hist[color];
         
         NSInteger r = [PaletteColorUtils quantizedRed:color];
         NSInteger g =  [PaletteColorUtils quantizedGreen:color];
@@ -328,16 +340,25 @@ int hist[32768];
 /** needColorDic */
 @property (nonatomic,assign) BOOL isNeedColorDic;
 
+@property(nonatomic, assign) int *hist;
+
 @end
 
 @implementation Palette
 
--(instancetype)initWithImage:(UIImage *)image{
+- (instancetype)initWithImage:(UIImage *)image{
     self = [super init];
     if (self){
         _image = image;
+        _hist = (int *)malloc(sizeof(int)*histLength);
     }
     return self;
+}
+
+- (void)dealloc {
+    
+    free(_hist);
+    _hist = NULL;
 }
 
 #pragma mark - Core code to analyze the main color of a image
@@ -365,13 +386,10 @@ int hist[32768];
 }
 
 - (void)startToAnalyzeImage{
-
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
-        [self clearHistArray];
-        
         // Get raw pixel data from image
-        unsigned char *rawData = [self rawPixelDataFromImage:_image];
+        unsigned char *rawData = [self rawPixelDataFromImage:self.image];
         if (!rawData || self.pixelCount <= 0){
             NSDictionary *userInfo = @{
                                        NSLocalizedDescriptionKey: NSLocalizedString(@"Operation fail", nil),
@@ -379,7 +397,10 @@ int hist[32768];
                                         NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Check the image input please", nil)
                                            };
             NSError *nullImageError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileNoSuchFileError userInfo:userInfo];
-            _getColorBlock(nil,nil,nullImageError);
+            if (self.getColorBlock != nil) {
+                self.getColorBlock(nil,nil,nullImageError);
+            }
+            
             return;
         }
         
@@ -396,27 +417,28 @@ int hist[32768];
             blue = [PaletteColorUtils modifyWordWidthWithValue:blue currentWidth:8 targetWidth:QUANTIZE_WORD_WIDTH];
             
             NSInteger quantizedColor = red << 2*QUANTIZE_WORD_WIDTH | green << QUANTIZE_WORD_WIDTH | blue;
-            hist [quantizedColor] ++;
+            self.hist[quantizedColor] ++;
         }
         
         free(rawData);
         
         NSInteger distinctColorCount = 0;
-        NSInteger length = sizeof(hist)/sizeof(hist[0]);
+        NSInteger length = histLength;
+
         for (NSInteger color = 0 ; color < length ;color++){
-            if (hist[color] > 0 && [self shouldIgnoreColor:color]){
-                hist[color] = 0;
+            if (self.hist[color] > 0 && [self shouldIgnoreColor:color]){
+                self.hist[color] = 0;
             }
-            if (hist[color] > 0){
+            if (self.hist[color] > 0){
                 distinctColorCount ++;
             }
         }
         
         NSInteger distinctColorIndex = 0;
-        _distinctColors = [[NSMutableArray alloc]init];
+        self.distinctColors = [[NSMutableArray alloc]init];
         for (NSInteger color = 0; color < length ;color++){
-            if (hist[color] > 0){
-                [_distinctColors addObject: [NSNumber numberWithInteger:color]];
+            if (self.hist[color] > 0){
+                [self.distinctColors addObject: [NSNumber numberWithInteger:color]];
                 distinctColorIndex++;
             }
         }
@@ -427,8 +449,11 @@ int hist[32768];
         if (distinctColorCount <= kMaxColorNum){
             NSMutableArray *swatchs = [[NSMutableArray alloc]init];
             for (NSInteger i = 0;i < distinctColorCount ; i++){
-                NSInteger color = [_distinctColors[i] integerValue];
-                NSInteger population = hist[color];
+                NSInteger color = 0;
+                if (self.distinctColors.count >= i+1) {
+                    color = [self.distinctColors[i] integerValue];
+                }
+                NSInteger population = self.hist[color];
                 
                 NSInteger red = [PaletteColorUtils quantizedRed:color];
                 NSInteger green = [PaletteColorUtils quantizedGreen:color];
@@ -444,15 +469,15 @@ int hist[32768];
                 [swatchs addObject:swatch];
             }
             
-            _swatchArray = [swatchs copy];
+            self.swatchArray = [swatchs copy];
         }else{
-            _priorityArray = [[PriorityBoxArray alloc]init];
-            VBox *colorVBox = [[VBox alloc]initWithLowerIndex:0 upperIndex:distinctColorIndex colorArray:_distinctColors];
-            [_priorityArray addVBox:colorVBox];
+            self.priorityArray = [[PriorityBoxArray alloc]init];
+            VBox *colorVBox = [[VBox alloc]initWithLowerIndex:0 upperIndex:distinctColorIndex colorArray:self.distinctColors hist:self.hist length:histLength];
+            [self.priorityArray addVBox:colorVBox];
             // split the VBox
-            [self splitBoxes:_priorityArray];
+            [self splitBoxes:self.priorityArray];
             //Switch VBox to Swatch
-            self.swatchArray = [self generateAverageColors:_priorityArray];
+            self.swatchArray = [self generateAverageColors:self.priorityArray];//swatchArray不一致
         }
         
         [self findMaxPopulation];
@@ -615,12 +640,6 @@ int hist[32768];
 
 #pragma mark - utils method
 
-- (void)clearHistArray{
-    for (NSInteger i = 0;i<32768;i++){
-        hist[i] = 0;
-    }
-}
-
 - (BOOL)shouldIgnoreColor:(NSInteger)color{
     return NO;
 }
@@ -663,7 +682,7 @@ int hist[32768];
                 
                 if (!_isNeedColorDic){
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        _getColorBlock(recommendColorModel,nil,nil);
+                        self.getColorBlock(recommendColorModel,nil,nil);
                     });
                     return;
                 }
@@ -677,7 +696,7 @@ int hist[32768];
     
     NSDictionary *finalColorDic = [finalDic copy];
     dispatch_async(dispatch_get_main_queue(), ^{
-        _getColorBlock(recommendColorModel,finalColorDic,nil);
+        self.getColorBlock(recommendColorModel,finalColorDic,nil);
     });
 
 }
